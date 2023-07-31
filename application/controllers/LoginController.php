@@ -24,17 +24,7 @@ class LoginController extends MY_Controller {
             $this->session->set_flashdata('dismiss_flash_message', array('message' => 'Please enter password', 'type' => 'danger'));
             redirect();
         } else {
-            // $result = $this->Custom_model->fetch_data('user', 
-            //     array('user.*','emp_role.role_name'), 
-            //     array('user_name' => $user_name, 'password' => md5($password)),
-            //     $joining = array('emp_role'=>'emp_role.id=user.role_id')
-            // );
-            //  $result = $this->Custom_model->fetch_data('user', 
-            //     array('user_details.*','user.id as id','user.*','emp_role.role_name'), 
-            //     array('user_name' => $user_name, 'password' => md5($password)),
-            //     $joining = array('emp_role'=>'emp_role.id=user.role_id','user_details'=>'user_details.user_id=user.id')
-            // );
-             
+            
             $results = $this->db->query('select fx_user_details.*,fx_user.id as id,fx_user.*,fx_emp_role.role_name,fx_center.lead_status as lead_status,fx_center.sales_status as sales_status,fx_center.acadamics_status as acadamics_status,fx_center.examinations_status as examinations_status,fx_center.logistics_status as logistics_status,fx_center.expenditure_status as expenditure_status,fx_center.enrollment_date_status as enrollment_date_status,fx_center.registration_date_status as registration_date_status,fx_center.regular_collection_date_status,fx_center.other_collection_date_status from fx_user 
                 left join fx_emp_role on fx_emp_role.id=fx_user.role_id
                 left join fx_user_details on fx_user_details.user_id=fx_user.id
@@ -54,73 +44,69 @@ class LoginController extends MY_Controller {
                 redirect();
               }else{
                 $id = $result[0]->id;
-                    if($result[0]->otp_enable=="1"){
-                        $format = "%Y-%m-%d %h:%i %a";
+                if($result[0]->otp_enable=="1"){
+                    $format = "%Y-%m-%d %h:%i %a";
+                    $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
+                    $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
+                    $log_at['user_id'] = $result[0]->id;
+                    $log_at['created_at'] = mdate('%Y-%m-%d %H:%i:%s', now());
+                    $this->db->insert("fx_user_login_attempt",$log_at);
+                      $this->session->set_userdata('admin_session', $result[0]);
+                      redirect(base_url('admin/dashboard'));
+                }else{
+                    $otp_val = $this->Custom_model->fetch_data('user', array('*'), array('id' => $id));  
+
+                    // if($otp_val[0]->otp == 0){
+                    
+                    $otp = substr(number_format(time() * rand(),0,'',''),0,6);
+                      $ins_data['otp'] = $otp;
+                      $format = "%Y-%m-%d %h:%i %a";
                         $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
-                        $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
-                        $log_at['user_id'] = $result[0]->id;
-                        $log_at['created_at'] = mdate('%Y-%m-%d %H:%i:%s', now());
-                        $this->db->insert("fx_user_login_attempt",$log_at);
-                         $this->session->set_userdata('admin_session', $result[0]);
-                         redirect(base_url('admin/dashboard'));
-                    }else{
-                        $otp_val = $this->Custom_model->fetch_data('user', array('*'), array('id' => $id));  
-
-                       // if($otp_val[0]->otp == 0){
-                        
-                        $otp = substr(number_format(time() * rand(),0,'',''),0,6);
-                         $ins_data['otp'] = $otp;
-                         $format = "%Y-%m-%d %h:%i %a";
-                            $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
-                         $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
-                         $sms_api_list = $this->Custom_model->fetch_data("sms_api",array('*'),array('is_delete'=>0), $joining = '', $search = '', $order = '', $by = '');
-                         
-                        if(!empty($sms_api_list)){
-                              $api_username = trim($sms_api_list[0]->username);
-                              $api_password = trim($sms_api_list[0]->password);
-                              $apiUrl = trim($sms_api_list[0]->api_url);
-                              if(substr($apiUrl, -1)=='?'){
-                                $apiUrl = $apiUrl;
-                              }else{
-                                $apiUrl = $apiUrl.'?';
-                              }
-                         //request parameters array
-                            $requestParams = array(
-                                'username' => $api_username,
-                                'password' => $api_password,
-                                'from' => 'FXANIM',
-                                'to' => $otp_val[0]->phone_no,
-                                'text' => 'Hi '.$otp_val[0]->f_name.'! '.$otp.' code is your Fx Portal verification code. FX ANIMATION',
-                                'coding' => 0,
-                                'template_id' => '1007298760095965226',
-                                'pe_id' => '1201159204813014014'
-                               // 'flash'=>1
-                            );
-                            //merge API url and parameters
-                            foreach($requestParams as $key => $val){
-                                $apiUrl .= $key.'='.urlencode($val).'&';
-                            }
-                            $apiUrl = rtrim($apiUrl, "&");
-                            //  echo $apiUrl;
-                            // exit;
-                            //API call
-                            $ch = curl_init();
-                            curl_setopt($ch, CURLOPT_URL, $apiUrl);
-                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                            $results = curl_exec($ch);
-                            // echo "<pre>";print_r($results);
-                           
-                            // }
-
-                        }
-                    $this->session->set_userdata('user_mobile_display',$otp_val[0]->phone_no);
-                    $this->session->set_userdata('current_time',date("Y-m-d h:i:s"));
-                    // $this->session->set_userdata('admin_session', $result[0]);
-                    redirect(base_url('admin/otp')); //4
-
+                      $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
+                      $sms_api_list = $this->Custom_model->fetch_data("sms_api",array('*'),array('is_delete'=>0), $joining = '', $search = '', $order = '', $by = '');
+                      
+                    if(!empty($sms_api_list)){
+                      $api_username = trim($sms_api_list[0]->username);
+                      $api_password = trim($sms_api_list[0]->password);
+                      $apiUrl = trim($sms_api_list[0]->api_url);
+                      if(substr($apiUrl, -1)=='?'){
+                        $apiUrl = $apiUrl;
+                      }else{
+                        $apiUrl = $apiUrl.'?';
+                      }
+                      //request parameters array
+                      $requestParams = array(
+                        'username' => $api_username,
+                        'password' => $api_password,
+                        'from' => 'FXANIM',
+                        'to' => $otp_val[0]->phone_no,
+                        'text' => 'Hi '.$otp_val[0]->f_name.'! '.$otp.' code is your Fx Portal verification code. FX ANIMATION',
+                        'coding' => 0,
+                        'template_id' => '1007298760095965226',
+                        'pe_id' => '1201159204813014014'
+                        // 'flash'=>1
+                    );
+                    //merge API url and parameters
+                    foreach($requestParams as $key => $val){
+                        $apiUrl .= $key.'='.urlencode($val).'&';
+                    }
+                    $apiUrl = rtrim($apiUrl, "&");
+                    //  echo $apiUrl;
+                    // exit;
+                    //API call
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    $results = curl_exec($ch);
+                    // echo "<pre>";print_r($results);
+                    // }
+                }
+                $this->session->set_userdata('user_mobile_display',$otp_val[0]->phone_no);
+                $this->session->set_userdata('current_time',date("Y-m-d h:i:s"));
+                // $this->session->set_userdata('admin_session', $result[0]);
+                redirect(base_url('admin/otp')); //4
                 }
               }
-              
             }          
         }
       }
