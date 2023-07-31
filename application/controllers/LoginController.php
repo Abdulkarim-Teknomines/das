@@ -1,17 +1,14 @@
 <?php
 class LoginController extends MY_Controller {
   public function __construct() {
-      parent::__construct();
-      $this->load->model('Custom_model');
+    parent::__construct();
+    $this->load->model('Custom_model');
   }
 
   public function user_login() {
     if ($this->session->userdata('admin_session')) {
-        $login = $this->session->userdata('admin_session');
-        if(isset($login->is_verified) && $login->is_verified == 1){
-           redirect(base_url('admin/dashboard'));
-        }
-       }
+      redirect(base_url('admin/dashboard'));
+    }
     
     if ($this->input->post('login')) {
         $user_name = $this->input->post('user_name');
@@ -36,80 +33,25 @@ class LoginController extends MY_Controller {
                 $this->session->set_flashdata('dismiss_flash_message', array('message' => 'Wrong username or password', 'type' => 'danger'));
                 redirect();
             }else{
-                $id = $result[0]->id;
-                
-                    $format = "%Y-%m-%d %h:%i %a";
-                    $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
-                    $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
-                    $log_at['user_id'] = $result[0]->id;
-                    $log_at['created_at'] = mdate('%Y-%m-%d %H:%i:%s', now());
-                    $this->db->insert("fx_user_login_attempt",$log_at);
-                      $this->session->set_userdata('admin_session', $result[0]);
-                      redirect(base_url('admin/dashboard'));
-                      
+              $id = $result[0]->id;
+              $format = "%Y-%m-%d %h:%i %a";
+              $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
+              $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
+              $log_at['user_id'] = $result[0]->id;
+              $log_at['created_at'] = mdate('%Y-%m-%d %H:%i:%s', now());
+              $this->db->insert("fx_user_login_attempt",$log_at);
+              $this->session->set_userdata('admin_session', $result[0]);
+              redirect(base_url('admin/dashboard'));
             }
           }
         }
-      $this->load->view('template/admin-template/login_header');
+      //$this->load->view('template/admin-template/login_header');
       $this->load->view('login/login');
-      $this->load->view('template/admin-template/login_footer');
+      //$this->load->view('template/admin-template/login_footer');
     }
-
-    public function resend_otp() {
-      $user_data = $this->session->userdata('admin_session');
-      $id = $user_data->id;  
-      $otp = substr(number_format(time() * rand(),0,'',''),0,6);
-      $ins_data['otp'] = $otp;
-      //$format = "%Y-%m-%d %h:%i %a";
-      $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
-      $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
-      $otp_val = $this->Custom_model->fetch_data('user', array('*'), array('id' => $id)); 
-      $otp = $otp_val[0]->otp;
-      $sms_api_list = $this->custom_model->fetch_data("sms_api",array('*'),array('is_delete'=>0), $joining = '', $search = '', $order = '', $by = '');
-      if(!empty($sms_api_list)){
-        //request parameters array
-          $api_username = trim($sms_api_list[0]->username);
-          $api_password = trim($sms_api_list[0]->password);
-          $apiUrl = trim($sms_api_list[0]->api_url);
-          if(substr($apiUrl, -1)=='?'){
-            $apiUrl = $apiUrl;
-          }else{
-            $apiUrl = $apiUrl.'?';
-          }
-        $requestParams = array(
-            'username' => $api_username,
-            'password' => $api_password,
-            'from' => 'FXANIM',
-            'to' => $otp_val[0]->phone_no,
-            'text' => 'Hi '.$otp_val[0]->fname.'! '.$otp.' code is your Fx Portal verification code. FX ANIMATION',
-            'coding' => 0,
-            //'flash'=>1
-            'template_id' => '1007298760095965226',
-            'pe_id' => '1201159204813014014'
-        );
-
-        //merge API url and parameters
-        // $apiUrl = "http://49.50.67.32/smsapi/httpapi.jsp?";
-        foreach($requestParams as $key => $val){
-            $apiUrl .= $key.'='.urlencode($val).'&';
-        }
-
-        $apiUrl = rtrim($apiUrl, "&");
-        //API call
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $apiUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_exec($ch);
-      }   
-        redirect(base_url('admin/otp')); //5
-    }
-
 
     public function logout() {
         $user_data = $this->session->userdata('admin_session');
-        $id = $user_data->id ;
-        $ins_data['is_verified'] = 0;
-        $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
         $this->session->sess_destroy();
         $this->session->unset_userdata($user_data);
         $this->session->unset_userdata('admin_session');
@@ -200,9 +142,8 @@ class LoginController extends MY_Controller {
         if ($this->session->userdata('admin_session')) {
             $login = $this->session->userdata('admin_session');
             //echo $login->is_verified;
-            if($login->is_verified == 1){
+            
                redirect(base_url('admin/dashboard'));
-            }
            }
            
 
@@ -254,10 +195,9 @@ class LoginController extends MY_Controller {
     }
 
 
-     public function thankyou_page() {
-   
+    public function thankyou_page() {
       $this->load->view('template/admin-template/login_header');
       $this->load->view('login/thank_you');
       $this->load->view('template/admin-template/login_footer');
-     }
+    }
 }
