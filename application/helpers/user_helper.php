@@ -1,7 +1,7 @@
 <?php
    
 	function checkUserAccess(){
-	    $CI = &get_instance();
+	    $CI = &get_instance(); 
 	    $session = $CI->session->userdata('admin_session');
 	    $CI->load->model('custom_model');	    
 	        
