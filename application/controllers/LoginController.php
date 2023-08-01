@@ -48,7 +48,8 @@ class LoginController extends MY_Controller {
     //   //$this->load->view('template/admin-template/login_header');
     //   $this->load->view('login/login');
     //   //$this->load->view('template/admin-template/login_footer');
-    die('abc');
+    $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/dashboard-side-menu', 'content' => 'admin/dashboard');
+    $this->template->load('template/gradient-able-template/admin-template', $template_part);
     }
 
     public function logout() {
