@@ -61,6 +61,6 @@ class Template {
     return $this->CI->load->view($template, $vars, $return);
     }
 }
-
+ 
 
 ?>
