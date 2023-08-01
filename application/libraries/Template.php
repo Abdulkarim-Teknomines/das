@@ -51,38 +51,15 @@ class Template {
     {
         // Load views into var array
         foreach($view as $key => $file)
-
-
         {
-
-
             $tpl[$key] = $this->CI->load->view($file, $vars, TRUE);
-
-
         }
-
-
         // Merge into vars array
-
-
         $vars = array_merge($vars, $tpl);
-
-
     }
-
-
-
-
-
     // Load master template
-
-
     return $this->CI->load->view($template, $vars, $return);
-
-
     }
-
-
 }
 
 
