@@ -6,52 +6,34 @@ class LoginController extends MY_Controller {
   }
 
   public function user_login() {
-    // if ($this->session->userdata('admin_session')) {
-    //   redirect(base_url('admin/dashboard'));
-    // }
+    if ($this->session->userdata('admin_session')) {
+      redirect(base_url('dashboard'));
+    }
     
     // if ($this->input->post('login')) {
-    //     $user_name = $this->input->post('user_name');
-    //     $password = $this->input->post('password');
-
-    //     if ($user_name == "") {
-    //         $this->session->set_flashdata('dismiss_flash_message', array('message' => 'Please enter user name', 'type' => 'danger'));
-    //         redirect();
-    //     } else if ($password == "") {
-    //         $this->session->set_flashdata('dismiss_flash_message', array('message' => 'Please enter password', 'type' => 'danger'));
-    //         redirect();
-    //     }else{
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+        
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        if ($this->form_validation->run() == FALSE)
+        {
+            // echo validation_errors(); 
             
-    //         $results = $this->db->query('select fx_user_details.*,fx_user.id as id,fx_user.*,fx_emp_role.role_name,fx_center.lead_status as lead_status,fx_center.sales_status as sales_status,fx_center.acadamics_status as acadamics_status,fx_center.examinations_status as examinations_status,fx_center.logistics_status as logistics_status,fx_center.expenditure_status as expenditure_status,fx_center.enrollment_date_status as enrollment_date_status,fx_center.registration_date_status as registration_date_status,fx_center.regular_collection_date_status,fx_center.other_collection_date_status from fx_user 
-    //             left join fx_emp_role on fx_emp_role.id=fx_user.role_id
-    //             left join fx_user_details on fx_user_details.user_id=fx_user.id
-    //             left join fx_center on fx_center.id=fx_user_details.center_id
-    //             where BINARY user_name="'.$user_name.'" AND password="'.MD5($password).'"');
-    //         $result = $results->result();
+            $this->load->view('template/admin-template/login_header');
+            $this->load->view('login/login');
+            $this->load->view('template/admin-template/login_footer');
+        }else{
             
-    //         if (empty($result)) {
-    //             $this->session->set_flashdata('dismiss_flash_message', array('message' => 'Wrong username or password', 'type' => 'danger'));
-    //             redirect();
-    //         }else{
-    //           $id = $result[0]->id;
-    //           $format = "%Y-%m-%d %h:%i %a";
-    //           $ins_data['last_login'] = mdate('%Y-%m-%d %H:%i:%s', now());
-    //           $ins_result = $this->Custom_model->edit_data_where($ins_data, array('id' => $id), "user");
-    //           $log_at['user_id'] = $result[0]->id;
-    //           $log_at['created_at'] = mdate('%Y-%m-%d %H:%i:%s', now());
-    //           $this->db->insert("fx_user_login_attempt",$log_at);
-    //           $this->session->set_userdata('admin_session', $result[0]);
-    //           redirect(base_url('admin/dashboard'));
-    //         }
-    //       }
-    //     }
-    //   //$this->load->view('template/admin-template/login_header');
-    //   $this->load->view('login/login');
-    //   //$this->load->view('template/admin-template/login_footer');
-    $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/dashboard-side-menu', 'content' => 'admin/dashboard');
-    $this->template->load('template/gradient-able-template/admin-template', $template_part);
+        }
+        // }
     }
+    public function signup(){
 
+        $this->load->view('template/admin-template/login_header');
+      $this->load->view('login/signup');
+      $this->load->view('template/admin-template/login_footer');
+    }
     public function logout() {
         $user_data = $this->session->userdata('admin_session');
         $this->session->sess_destroy();
