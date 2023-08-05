@@ -52,7 +52,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="auth-normal-sign-in.html">
+                                            <a href="<?php echo base_url('logout')?>">
                                             <i class="ti-layout-sidebar-left"></i> Logout
                                         </a>
                                         </li>
@@ -81,4 +81,4 @@
                         </div>
                     </div>
                </div>
-           </nav>
+            </nav>

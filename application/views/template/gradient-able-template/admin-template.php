@@ -26,11 +26,11 @@
 
   <body>
   <body>
-	  <div class="fixed-button">
+	  <!-- <div class="fixed-button">
 		<a href="https://codedthemes.com/item/gradient-able-admin-template" target="_blank" class="btn btn-md btn-primary">
 			<i class="fa fa-shopping-cart" aria-hidden="true"></i> Upgrade To Pro
 		</a>
-	  </div>
+	  </div> -->
        <!-- Pre-loader start -->
     <div class="theme-loader">
         <div class="loader-track">

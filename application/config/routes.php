@@ -62,3 +62,7 @@ $route['other'] = 'OtherController/index';
 $route['setup'] = 'SetupController/index';
 $route['treatment'] = 'TreatmentController/index';
 $route['register'] ='LoginController/signup';
+$route['logout']= 'LoginController/logout';
+$route['forgot_password'] = 'LoginController/forgot_password';
+$route['add_clinic'] = 'SetupController/add_clinic';
+$route['add_user'] ='SetupController/add_user';
