@@ -17,7 +17,7 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <a href="index.html">
+                            <a href="<?php echo base_url('dashboard')?>">
                                 <img class="img-fluid" src="<?php echo base_url()?>assets/images/logos.png" alt="Theme-Logo" />
                             </a>
                             <a class="mobile-options">
@@ -81,4 +81,5 @@
                         </div>
                     </div>
                </div>
+            </div>
             </nav>

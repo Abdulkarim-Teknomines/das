@@ -65,4 +65,26 @@ $route['register'] ='LoginController/signup';
 $route['logout']= 'LoginController/logout';
 $route['forgot_password'] = 'LoginController/forgot_password';
 $route['add_clinic'] = 'SetupController/add_clinic';
+$route['view_clinic'] = 'SetupController/view_clinic';
+$route['edit_clinic/(:any)'] = 'SetupController/edit_clinic/$1';
 $route['add_user'] ='SetupController/add_user';
+$route['edit_user/(:any)'] ='SetupController/edit_user/$1';
+$route['view_user'] ='SetupController/view_user';
+$route['add_treatment_plan'] = 'SetupController/add_treatment_plan';
+$route['edit_treatment_plan/(:any)'] = 'SetupController/edit_treatment_plan/$1';
+$route['view_treatment_plan'] = 'SetupController/view_treatment_plan';
+$route['add_medicine'] = 'SetupController/add_medicine';
+// $route['view_medicine'] = 'SetupController/view_medicine';
+$route['edit_medicine/(:any)'] = 'SetupController/edit_medicine/$1';
+$route['view_medicine'] = 'SetupController/view_medicine';
+$route['add_video'] = 'SetupController/add_video';
+$route['edit_video/(:any)'] = 'SetupController/edit_video/$1';
+$route['view_video'] = 'SetupController/view_video';
+
+$route['add_workshop'] = 'OtherController/add_workshop';
+$route['edit_workshop'] = 'OtherController/edit_workshop';
+$route['workshop_videos'] = 'OtherController/workshop_videos';
+
+$route['edit_workshop_detail/(:any)'] = 'OtherController/edit_workshop_detail/$1';
+$route['add_patient']= 'PatientController/add_patient';
+$route['search_patient']= 'PatientController/search_patient';

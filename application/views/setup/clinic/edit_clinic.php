@@ -14,41 +14,41 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Clinic Name *</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control clinic_name" placeholder="Enter Clinic Name" name="clinic_name" value="<?php echo set_value('clinic_name');?>" autocomplete="off">
+                        <input type="text" class="form-control clinic_name" placeholder="Enter Clinic Name" name="clinic_name" value="<?php echo set_value('clinic_name',$result->clinic_name); ?>" autocomplete="off">
                         <?php echo form_error('clinic_name');?>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Select Logo</label>
                     <div class="col-sm-10">
-                        <input type="file" name="clinic_logo"  id="clinic_logo" class="clinic_logo form-control" >
-                        
+                        <input type="file" name="clinic_logo" id="clinic_logo" class="form-control clinic_logo" value="<?php echo set_value('clinic_logo',$result->logo); ?>">
+                        <input type="hidden" name="old_clinic_logo" value="<?php echo $result->logo;?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control address" placeholder="Enter Address" name="address" value="<?php echo set_value('address');?>" autocomplete="off">
+                        <input type="text" class="form-control" placeholder="Enter Address" name="address" value="<?php echo set_value('address',$result->address);?>" autocomplete="off">
                         <?php echo form_error('address');?>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control email" placeholder="Enter Email" name="email"  id="email"  value="<?php echo set_value('email');?>" autocomplete="off">
+                            <input type="text" class="form-control email" placeholder="Enter Email" name="email" id="email"  value="<?php echo set_value('email');?>" autocomplete="off">
                         </div>
                 </div>
                 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Landline Number</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control landline_number" placeholder="Enter Landline Number" name="landline_number"  id="landline_number"  value="<?php echo set_value('landline_number');?>" autocomplete="off">
+                            <input type="text" class="form-control landline_number" placeholder="Enter Landline Number" name="landline_number"  id="landline_number" value="<?php echo set_value('landline_number');?>" autocomplete="off">
                         </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Mobile Number *</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control mobile_number" placeholder="Enter Mobile Number" name="mobile_number" id="mobile_number"  value="<?php echo set_value('mobile_number');?>" autocomplete="off">
+                        <input type="text" class="form-control mobile_number" placeholder="Enter Mobile Number" name="mobile_number" id="mobile_number" value="<?php echo set_value('mobile_number',$result->mobile_number);?>" autocomplete="off">
                         <?php echo form_error('mobile_number');?>
                     </div>
                 </div>
@@ -67,18 +67,19 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Payment</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control payment" placeholder="Enter Payment" name="payment"  id="payment" value="<?php echo set_value('payment');?>" autocomplete="off">
+                        <input type="text" class="form-control payment" placeholder="Enter Payment"  name="payment"  id="payment" value="<?php echo set_value('payment');?>" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">QR Code</label>
                     <div class="col-sm-10">
-                        <input type="file" class="form-control qr_code" name="qr_code"  id="qr_code" value="<?php echo set_value('qr_code');?>" autocomplete="off">
+                        <input type="file" class="form-control" name="qr_code"  id="qr_code"  class="qr_code" value="<?php echo set_value('qr_code');?>" autocomplete="off">
+                        <input type="hidden" name="old_qr_code" value="<?php echo $result->qr_code;?>">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-2">
-                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Add Clinic">
+                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Edit Clinic">
                     </div>
                 </div>
             </form>
