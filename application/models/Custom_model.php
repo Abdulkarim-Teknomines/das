@@ -45,12 +45,7 @@ class Custom_model extends CI_Model {
         
     }
    }
-   public function get_blood_group(){
-    $this->db->select('*');
-        $this->db->from('da_blood_group');
-        $result = $this->db->get()->result();
-        return $result;
-   }
+   
    public function get_treatment_plan($id=FALSE){
     if($id!=FALSE){
         $this->db->select('*');

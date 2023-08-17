@@ -1,3 +1,7 @@
+<?php 
+$CI =& get_instance();
+$CI->load->model('Patient_model');
+?>
 <style>
     .error{
         color:red;
@@ -6,7 +10,7 @@
 <div class="card">
     <div class="card-header">
         <div class="card-block">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" id="form">
                 <div class="form-group row">
                     <div class="col-sm-2 btn btn-primary text-center m-b-20"><span>Appointment Details *</span></div>
                 </div>
@@ -46,6 +50,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Patient Details *</label>
                 </div>
+                <input type="hidden" name="patient_id" id="patient_id" class="patient_id" >
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">First Name *</label>
                     <div class="col-sm-10">
@@ -72,19 +77,18 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Whatsapp No </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" readonly>
-                            
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" readonly>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Blood Group </label>
                     <div class="col-sm-4">
                         <select class="form-control blood_group" name="blood_group" id="blood_group" disabled>
-                            <option value="">Select Blood Group</option>
+                        <option value="">Select Blood Group</option>
                             <?php if(!empty($blood_group)){
                                 foreach($blood_group as $b_group){ ?>
-                                    <option value="<?php echo $b_group->id;?>"><?php echo $b_group->name;?></option>
+                                    <option value="<?php echo $b_group;?>"><?php echo $b_group;?></option>
                             <?php   }
                             }
                             ?>
@@ -92,7 +96,7 @@
                     </div>
                     <label class="col-sm-2 col-form-label">Date of Birth </label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off" readonly>
+                        <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off" disabled>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -113,6 +117,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
+                            
                             <textarea class="form-control" placeholder="Enter Address" name="address"  id="address" autocomplete="off" readonly></textarea>
                         </div>
                 </div>
@@ -123,6 +128,35 @@
                         </div>
                 </div>
                 <div class="form-group row">
+                    <div class="col-sm-2 btn btn-primary text-center m-b-20"><span>Speciality *</span></div>
+                </div>
+                <?php foreach($categories as $cat){ ?>
+                    <div class="form-group row">
+                            <div class="col-sm-2"></div>
+                            <div class="col-sm-2">
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input categories[]" name="categories[]" id="categories[]" value="<?php echo $cat->id;?>">
+                                    <label class="form-label"><?php echo $cat->category_name;?></label>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <select class="form-control sub_categories" name="sub_categories[]" id="sub_categories_<?php echo $cat->id;?>" multiple="multiple">
+                                    <option value="">Select Sub Speciality</option>
+                                    
+                                    <?php $sub_cat = $CI->Patient_model->get_sub_categories($cat->id);
+                                    if(!empty($sub_cat)){
+                                        foreach($sub_cat as $subcat){ ?>
+                                            <option value="<?php echo $subcat->id;?>"><?php echo $subcat->name;?></option>
+                                        <?php   }
+                                        }
+                                        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
+                <div class="form-group row">
                     <div class="col-sm-11"></div>
                     <div class="col-sm-1">
                         <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Submit" autocomplete="off">
@@ -132,18 +166,17 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-  $(document).ready(function(){
-    $("#appointment_date").datepicker({ 
-        format: 'dd-mm-yyyy',
-        autoclose: true, 
-        todayHighlight: true,
 
-    });
-    $('#appointment_time').datetimepicker({
-        format: 'HH:mm',
-    });
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(".sub_categories").select2({
+            placeholder: "Select Sub Speciality",
+            tags: true,
+        });
+
     $("#search").click(function(){
         $(".error").remove();
         if($("#patient_id_or_number").val()==""){
@@ -196,6 +229,61 @@
         todayHighlight: true,
 
     });
-    
+    $("#appointment_date").datepicker({ 
+        format: 'dd-mm-yyyy',
+        autoclose: true, 
+        todayHighlight: true,
+
+    });
+    $('#appointment_time').datetimepicker({
+        format: 'HH:mm'
+    });
+    $(document).on('submit',function(e){
+        $(".error").remove();
+        e.preventDefault();
+        var val = [];
+        var t = [];
+        var selected = [];
+        if($("#patient_id").val()==""){
+            $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
+            return false;
+        }
+        $(':checkbox:checked').each(function(s){
+          val[s] = $(this).val();
+        });
+        $.each(val, function( index, value ) {
+            selected[value]=[];
+            $('#sub_categories_'+value+' :selected').each(function(i, sel){ 
+                selected[value].push($(sel).val());
+            });
+        });
+
+        var patient_id = $("#patient_id").val();
+        var doctor_id = $("#doctors").val();
+        var appointment_date = $("#appointment_date").val();
+        var appointment_time = $("#appointment_time").val();
+        if($("#doctors").val()==""){
+            $("#doctors").after('<div class="error">Please Select Doctor</div>');
+            return false;
+        }else if($("#appointment_date").val()==""){
+            $("#appointment_date").after('<div class="error">Please Select Date</div>');
+            return false;
+        }else if($("#appointment_time").val()==""){
+            $("#appointment_time").after('<div class="error">Please Select Time</div>');
+            return false;
+        }
+        $.ajax({
+            url: "<?php echo base_url('PatientController/store_patient_more_details');?>",
+            data: ({selected,selected,patient_id:patient_id,appointment_date:appointment_date,appointment_time:appointment_time,doctor_id:doctor_id}),
+            dataType: 'json', 
+            type: 'post',
+            success: function(data) {
+                
+            }             
+        });
+           
+    });
 });
+
+
 </script>

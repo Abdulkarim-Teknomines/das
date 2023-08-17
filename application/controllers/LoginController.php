@@ -15,21 +15,20 @@ class LoginController extends MY_Controller {
         $this->form_validation->set_rules('password','Password','required');
         if($this->form_validation->run()==TRUE){
             $email = $this->input->post('email');
-                $email = $this->input->post('email'); 
-                $password = $this->input->post('password'); 
-                $this->db->select('*');
-                $this->db->from('da_user');
-                $this->db->where('email_id',$email);
-                $this->db->where('password',MD5($password));
-                $this->db->where('is_verified','1');
-                $data = $this->db->get();
-                $result = $data->row();
-                if($data->num_rows()<=0){
-                    $this->session->set_flashdata('error','Username or Password is Incorrect');
-                }else{
-                    $this->session->set_userdata('admin_session',$result);
-                    redirect('dashboard');
-                }
+            $password = $this->input->post('password'); 
+            $this->db->select('*');
+            $this->db->from('da_clinic_user');
+            $this->db->where('email_id',$email);
+            $this->db->where('password',MD5($password));
+            // $this->db->where('is_verified','1');
+            $data = $this->db->get();
+            $result = $data->row();
+            if($data->num_rows()<=0){
+                $this->session->set_flashdata('error','Username or Password is Incorrect');
+            }else{
+                $this->session->set_userdata('admin_session',$result);
+                redirect('dashboard');
+            }
         }
     }
     
@@ -82,7 +81,7 @@ class LoginController extends MY_Controller {
                 $email = $this->input->post('email');
                 $mobile =$this->input->post('mobile');
                 $this->db->select('*');
-                $this->db->from('da_user');
+                $this->db->from('da_clinic_user');
                 $this->db->where('first_name',$name);
                 $this->db->where('email_id',$email);
                 $this->db->where('mobile_number',$mobile);

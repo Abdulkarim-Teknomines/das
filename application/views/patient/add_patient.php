@@ -48,7 +48,7 @@
                             <option value="">Select Blood Group</option>
                             <?php if(!empty($blood_group)){
                                 foreach($blood_group as $b_group){ ?>
-                                    <option value="<?php echo $b_group->id;?>"><?php echo $b_group->name;?></option>
+                                    <option value="<?php echo $b_group;?>"><?php echo $b_group;?></option>
                             <?php   }
                             }
                             ?>
@@ -62,12 +62,17 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Sex *</label>
                     <div class="col-sm-10">
-                        <div class="form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="sex" value="Male" checked="true"><label class="form-label">Male</label>
-                        </label>
-                        </div>
-                        <div class="form-check-inline">
+                        <?php if(!empty($this->gender)){
+                            foreach($this->gender as $gen){ ?>
+                                <div class="form-check-inline">
+                                    <label class="form-check-label">
+                                        <input type="radio" class="form-check-input" name="sex" value="<?php echo $gen;?>" checked="true"><label class="form-label"><?php echo $gen;?></label>
+                                    </label>
+                                </div>
+
+                            <?php }
+                            } ?>
+                        <!-- <div class="form-check-inline">
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="sex" value="Female"><label class="form-label">Female</label>
                         </label>
@@ -76,7 +81,7 @@
                         <label class="form-check-label">
                             <input type="radio" class="form-check-input" name="sex" value="Other"><label class="form-label">Other</label>
                         </label>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 

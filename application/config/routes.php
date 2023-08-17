@@ -88,3 +88,4 @@ $route['workshop_videos'] = 'OtherController/workshop_videos';
 $route['edit_workshop_detail/(:any)'] = 'OtherController/edit_workshop_detail/$1';
 $route['add_patient']= 'PatientController/add_patient';
 $route['search_patient']= 'PatientController/search_patient';
+$route['add_more_details'] = 'PatientController/add_more_details';

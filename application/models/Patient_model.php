@@ -42,18 +42,34 @@ class Patient_model extends CI_Model {
             return false;
         }
     }
-    public function get_workshop_list($id=FALSE){
+    public function get_categories($id=FALSE){
         if($id!=FALSE){
             $this->db->select('*');
             $this->db->where('id',$id);
-            $this->db->from('da_workshop');
+            $this->db->from('da_categories');
             $result = $this->db->get()->row();
         }else{
             $this->db->select('*');
-            $this->db->from('da_workshop');
+            $this->db->from('da_categories');
             $result = $this->db->get()->result();
         }
         
+        return $result;
+    }
+    public function get_sub_categories($id=FALSE){
+        
+            $this->db->select('*');
+            $this->db->where('category_id',$id);
+            $this->db->from('da_sub_categories');
+            $result = $this->db->get()->result();
+        
+        return $result;
+    }
+    public function get_doctors(){
+        $this->db->select('*');
+        $this->db->where('role_id',3);
+        $this->db->from('da_clinic_user');
+        $result = $this->db->get()->result();
         return $result;
     }
 }

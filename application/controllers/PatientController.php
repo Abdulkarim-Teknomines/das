@@ -4,6 +4,9 @@ class PatientController extends MY_Controller {
         parent::__construct();
         $this->load->model('Patient_model');
         $this->load->model('Custom_model');
+        $this->load->helper('common_data_helper');
+        $this->blood_group = blood_group();
+        $this->gender = gender();  
         if (!$this->session->userdata('admin_session')) {
             redirect(base_url());
         }
@@ -13,8 +16,9 @@ class PatientController extends MY_Controller {
         $this->template->load('template/gradient-able-template/admin-template',$template_part);
     }
     public function add_patient(){
-        $blood_group = $this->Custom_model->get_blood_group();
+        $blood_group = $this->blood_group;
         $data['blood_group'] = $blood_group;
+        $data['gender']= $this->gender;
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/patient-side-menu','content'=>'patient/add_patient');
         $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
     }
@@ -23,7 +27,7 @@ class PatientController extends MY_Controller {
         $this->form_validation->set_rules('first_name','First Name','required');
         $this->form_validation->set_rules('last_name','Last Name','required');
         // $this->form_validation->set_rules('email_id','Email ID','required|valid_email');
-        $this->form_validation->set_rules('mobile_number','Mobile Number','required|max_length[10]|min_length[10]');
+        $this->form_validation->set_rules('mobile_number','Mobile Number','required|max_length[10]|min_length[10]|is_unique[da_patients.mobile_no]');
         // $this->form_validation->set_rules('whatsapp_number','Whatsapp Number','required|max_length[10]|min_length[10]');
         $this->form_validation->set_rules('blood_group','Blood Group','required');
         // $this->form_validation->set_rules('birth_date','Birth Date','required');
@@ -58,6 +62,8 @@ class PatientController extends MY_Controller {
                 $last_id = $result;
                 $inc_id = 'DA0000000';
                 $inrno=str_pad((int)$last_id, 7, 0, STR_PAD_LEFT);
+                $ir['patient_id'] = $inrno;
+                $result = $this->Patient_model->edit_data_where($ir,array('id'=>$last_id),'da_patients');
                 $data=array('status'=>'success','message'=>'Patient Added Succesfully','patient_id'=>$inrno);
             }
         }else{
@@ -68,10 +74,73 @@ class PatientController extends MY_Controller {
         echo json_encode($data);
     }
     public function search_patient(){
-        
-        $blood_group = $this->Custom_model->get_blood_group();
-        $data['blood_group'] = $blood_group;
+        $data['blood_group'] = $this->blood_group;
+        $categories = $this->Patient_model->get_categories();
+        $data['categories'] = $categories;
+        $doctors = $this->Patient_model->get_doctors();
+        $data['doctors'] = $doctors;
+        $data_array = array();
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/patient-side-menu','content'=>'patient/search_patient');
         $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
+    }
+    public function add_more_details(){
+        $data['blood_group'] = $this->blood_group;
+        $categories = $this->Patient_model->get_categories();
+        $data['categories'] = $categories;
+        $doctors = $this->Patient_model->get_doctors();
+        $data['doctors'] = $doctors;
+        $data_array = array();
+       
+        $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/patient-side-menu','content'=>'patient/add_more_details');
+        $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
+    }
+    public function search_patient_details(){
+        $patient_id_number = $this->input->post('patient_id_number');
+        $this->db->select('*');
+        $this->db->from('da_patients');
+        $this->db->where('patient_id',$patient_id_number);
+        $this->db->or_where('mobile_no',$patient_id_number);
+        $result = $this->db->get()->row_array();
+        if(!empty($result)){
+            echo json_encode($result);
+        }else{
+            echo json_encode(array());
+        }
+
+        
+    }
+    public function store_patient_more_details(){
+        $patient_id = $this->input->post('patient_id');
+        $appointment_date = $this->input->post('appointment_date');
+        $appointment_time = $this->input->post('appointment_time');
+        $doctor_id = $this->input->post('doctor_id');
+        $categories_id ='';
+        $sub_categories_id='';
+        if(!empty($this->input->post('selected'))){
+            $this->db->where('patient_id', $patient_id);
+            $this->db->delete('da_patient_categories');
+            foreach($this->input->post('selected') as $key=>$val){
+                if(!empty($val)){
+                    $categories_id = $key;
+                    $sub_categories_id =implode(',',$val);
+                    $data_cat = array(
+                        'patient_id'=>$patient_id,
+                        'category_id'=>$categories_id,
+                        'sub_category_id' => $sub_categories_id
+                    );
+                    $this->Patient_model->insert_data($data_cat,'da_patient_categories');
+                }
+            }
+        }
+        $this->db->where('patient_id', $patient_id);
+            $this->db->delete('da_patient_details');
+        $data_res = array(
+            'patient_id'=>$patient_id,
+            'appointment_date'=>$appointment_date,
+            'appointment_time' => $appointment_time,
+            'doctor_id' =>$doctor_id
+        );
+        $ins_data = $this->Patient_model->insert_data($data_res,'da_patient_details');
+        
     }
 }
