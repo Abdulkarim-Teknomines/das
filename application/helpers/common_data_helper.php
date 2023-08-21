@@ -10,7 +10,7 @@ if ( ! function_exists('blood_group'))
 }
 if ( ! function_exists('gender'))
 { 
-     function gender()
+    function gender()
     {
         $data = array('Male','Female','Other');
         return $data;

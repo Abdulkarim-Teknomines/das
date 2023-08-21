@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Patient_model extends CI_Model {
     function __construct() {
         parent::__construct();
+        $this->admin_session = $this->session->userdata('admin_session');
     }
    
     function insert_data($data, $table_name) {
@@ -68,7 +69,22 @@ class Patient_model extends CI_Model {
     public function get_doctors(){
         $this->db->select('*');
         $this->db->where('role_id',3);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('id',$this->admin_session->id);
+        }
         $this->db->from('da_clinic_user');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function appointment_details(){
+        $this->db->select('*');
+
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
+        $this->db->from('da_appointments');
         $result = $this->db->get()->result();
         return $result;
     }

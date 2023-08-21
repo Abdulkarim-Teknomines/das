@@ -6,6 +6,7 @@ class OtherController extends MY_Controller {
         if (!$this->session->userdata('admin_session')) {
             redirect(base_url());
         }
+        $this->admin_session = $this->session->userdata('admin_session');
     }
     public function index() {
 
@@ -35,7 +36,9 @@ class OtherController extends MY_Controller {
                     'workshop_topic'=>$workshop_topic,
                     'date'=>$date,
                     'time'=>$time,
-                    'meeting_link'=>$meeting_link
+                    'meeting_link'=>$meeting_link,
+                    'clinic_user_id'=>$this->admin_session->id,
+                    'clinic_id'=>$this->admin_session->clinic_id
                     
                 );
                $result = $this->Other_model->insert_data($data,'da_workshop');

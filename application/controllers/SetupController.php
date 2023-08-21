@@ -6,6 +6,7 @@ class SetupController extends MY_Controller {
         if (!$this->session->userdata('admin_session')) {
             redirect(base_url());
         }
+        $this->admin_session = $this->session->userdata('admin_session');
     }
     public function index() {
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/setup-side-menu','content'=>'setup/empty_tab');
@@ -66,6 +67,7 @@ class SetupController extends MY_Controller {
                     'website'=>$website,
                     'payment'=>$payment,
                     'qr_code'=>$qr_code,
+                    
                 );
                $result = $this->Custom_model->insert_data($data,'da_clinic');
                 if($result!=false){
@@ -140,7 +142,8 @@ class SetupController extends MY_Controller {
                     'mobile_number'=>$mobile_number,
                     'address'=>$address,
                     'email_id'=>$email_id,
-                    'role_id'=>$role_id
+                    'role_id'=>$role_id,
+                    
                 );
                $result = $this->Custom_model->insert_data($data,'da_clinic_user');
                 if($result!=false){
@@ -173,6 +176,8 @@ class SetupController extends MY_Controller {
             $data = array(
                 'treatment_plan'=>$treatment_plan,
                 'price'=>$price,
+                'clinic_user_id'=>$this->admin_session->id,
+                'clinic_id'=>$this->admin_session->clinic_id
             );
         $result = $this->Custom_model->insert_data($data,'da_treatment_plan');
             if($result!=false){
@@ -197,6 +202,8 @@ class SetupController extends MY_Controller {
              $data = array(
                  'medicine_type_id'=>$medicine_type_id,
                  'medicine_name'=>$name,
+                 'clinic_user_id'=>$this->admin_session->id,
+                 'clinic_id'=>$this->admin_session->clinic_id
              );
             $result = $this->Custom_model->insert_data($data,'da_medicine');
              if($result!=false){
@@ -224,6 +231,8 @@ class SetupController extends MY_Controller {
              $data = array(
                  'video_description'=>$video_description,
                  'video_link'=>$video_link,
+                 'clinic_user_id'=>$this->admin_session->id,
+                 'clinic_id'=>$this->admin_session->clinic_id
              );
             $result = $this->Custom_model->insert_data($data,'da_videos');
              if($result!=false){
@@ -269,10 +278,6 @@ class SetupController extends MY_Controller {
     public function view_medicine_detail(){
         $draw='';
         $data = array();
-        // $this->db->select('*');
-        // $this->db->join('da_medicine_type','da_medicine_type.id=da_medicine.medicine_type_id');
-        // $this->db->from('da_medicine');
-        // $result = $this->db->get()->result();
         $result = $this->Custom_model->get_medicine(FALSE);
         if(!empty($result)){
             foreach($result as $e){

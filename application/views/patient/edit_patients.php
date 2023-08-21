@@ -50,31 +50,31 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">First Name *</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name" autocomplete="off" readonly>
+                        <input type="text" class="form-control" placeholder="First Name" name="first_name" id="first_name" autocomplete="off" >
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Last Name * </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Last Name" name="last_name"  id="last_name" autocomplete="off" readonly>
+                            <input type="text" class="form-control" placeholder="Last Name" name="last_name"  id="last_name" autocomplete="off" >
                         </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Email Address </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter Email Address" name="email_id"  id="email_id" autocomplete="off" readonly>
+                            <input type="text" class="form-control" placeholder="Enter Email Address" name="email_id"  id="email_id" autocomplete="off" >
                         </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Mobile Number *</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter Mobile Number" name="mobile_number"  id="mobile_number" autocomplete="off" readonly>
+                            <input type="text" class="form-control" placeholder="Enter Mobile Number" name="mobile_number"  id="mobile_number" autocomplete="off" >
                         </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Whatsapp No </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" readonly>
+                            <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" >
                             
                         </div>
                 </div>
@@ -82,7 +82,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Blood Group </label>
                     <div class="col-sm-4">
-                        <select class="form-control blood_group" name="blood_group" id="blood_group" disabled>
+                        <select class="form-control blood_group" name="blood_group" id="blood_group" >
                             <option value="">Select Blood Group</option>
                             <?php if(!empty($blood_group)){
                                 foreach($blood_group as $b_group){ 
@@ -96,7 +96,7 @@
                     </div>
                     <label class="col-sm-2 col-form-label">Date of Birth </label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off" readonly>
+                        <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off" >
                     </div>
                 </div>
                 <div class="form-group row">
@@ -106,7 +106,7 @@
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" disabled><label class="form-label"><?php echo $gen;?></label>
+                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" ><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
                             <?php }
@@ -117,19 +117,19 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" placeholder="Enter Address" name="address"  id="address" autocomplete="off" readonly></textarea>
+                            <textarea class="form-control" placeholder="Enter Address" name="address"  id="address" autocomplete="off" ></textarea>
                         </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Patient Problem *</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Patient Problem" name="patient_problem"  id="patient_problem" autocomplete="off" readonly>
+                            <input type="text" class="form-control" placeholder="Patient Problem" name="patient_problem"  id="patient_problem" autocomplete="off" >
                         </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Book on Appointment" autocomplete="off">
+                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Update" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -202,32 +202,57 @@
     });
 });
 $(document).on('submit',function(e){
+    
     $(".error").remove();
     e.preventDefault();
     if($("#patient_id").val()==""){
         $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
         return false;
-    }else if($("#doctors").val()==""){
-        $("#doctors").after('<div class="error">Please Select Doctor</div>');
-        return false;
-    }else if($("#appointment_date").val()==""){
-        $("#appointment_date").after('<div class="error">Please Select Date</div>');
-        return false;
-    }else if($("#appointment_time").val()==""){
-        $("#appointment_time").after('<div class="error">Please Select Time</div>');
-        return false;
     }
     var patient_id = $("#patient_id").val();
-    var doctor_id = $("#doctors").val();
-    var appointment_date = $("#appointment_date").val();
-    var appointment_time = $("#appointment_time").val();
+    var first_name = $("#first_name").val();
+    var last_name = $("#last_name").val();
+    var email_id = $("#email_id").val();
+    var mobile_number = $("#mobile_number").val();
+    var whatsapp_number = $("#whatsapp_number").val();
+    var blood_group = $("#blood_group").val();
+    var birth_date = $("#birth_date").val();
+    var sex = $(".sex").val();
+    var address = $("#address").val();
+    var patient_problem = $("#patient_problem").val();
     $.ajax({
-        url: "<?php echo base_url('PatientController/appointment_book');?>",
-        data: ({patient_id:patient_id,appointment_date:appointment_date,appointment_time:appointment_time,doctor_id:doctor_id}),
+        url: "<?php echo base_url('PatientController/update_patient');?>",
+        data: ({patient_id:patient_id,first_name:first_name,last_name:last_name,email_id:email_id,mobile_number:mobile_number,whatsapp_number:whatsapp_number,blood_group:blood_group,birth_date:birth_date,sex:sex,address:address,patient_problem:patient_problem}),
         dataType: 'json', 
         type: 'post',
         success: function(data) {
-            
+            if(data.status=='success'){
+                        Swal.fire({
+                            title: data.message,
+                            // icon:'success',
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $("#patient_id").val('');
+                                $("#first_name").val('');
+                                $("#last_name").val('');
+                                $("#email_id").val('');
+                                $("#mobile_number").val('');
+                                $("#whatsapp_number").val('');
+                                $("#birth_date").val('');
+                                $("#address").val('');
+                                $("#patient_problem").val('');
+                                $('#blood_group option[value=""]').attr("selected", "selected");
+                                $("input:radio").prop('checked',false);
+                                $("#patient_id").val('');
+                            }
+                        })
+                    }else{
+                        $.each(data.message,function(key,value){
+                            var element = $("#"+key);
+                            element.after(value); 
+                        });
+                    }
         }             
     });
 });

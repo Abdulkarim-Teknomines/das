@@ -50,10 +50,18 @@ class Custom_model extends CI_Model {
     if($id!=FALSE){
         $this->db->select('*');
         $this->db->where('id',$id);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->from('da_treatment_plan');
         $result = $this->db->get()->row();
     }else{
         $this->db->select('*');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->from('da_treatment_plan');
         $result = $this->db->get()->result();
     }
@@ -70,6 +78,10 @@ class Custom_model extends CI_Model {
     if($id!=false){
         $this->db->select('*,da_medicine.id,da_medicine_type.name,da_medicine.medicine_name');
         $this->db->join('da_medicine_type','da_medicine_type.id=da_medicine.medicine_type_id');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->where('da_medicine.id',$id);
         $this->db->from('da_medicine');
         $result = $this->db->get()->row();
@@ -77,6 +89,10 @@ class Custom_model extends CI_Model {
     }else{
         $this->db->select('*,da_medicine.id,da_medicine_type.name,da_medicine.medicine_name');
         $this->db->join('da_medicine_type','da_medicine_type.id=da_medicine.medicine_type_id');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->from('da_medicine');
         $result = $this->db->get()->result();
         
@@ -87,10 +103,18 @@ class Custom_model extends CI_Model {
     if($id!=FALSE){
         $this->db->select('*');
         $this->db->where('id',$id);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->from('da_videos');
         $result = $this->db->get()->row();
     }else{
         $this->db->select('*');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
         $this->db->from('da_videos');
         $result = $this->db->get()->result();
     }

@@ -89,3 +89,17 @@ $route['edit_workshop_detail/(:any)'] = 'OtherController/edit_workshop_detail/$1
 $route['add_patient']= 'PatientController/add_patient';
 $route['search_patient']= 'PatientController/search_patient';
 $route['add_more_details'] = 'PatientController/add_more_details';
+$route['edit_patient'] = 'PatientController/edit_patient';
+
+$route['medical_history'] = 'ClinicalExaminationController/medical_history';
+$route['dental_history'] = 'ClinicalExaminationController/dental_history';
+$route['clinical_examinator'] = 'ClinicalExaminationController/clinical_examinator';
+$route['investigation'] = 'ClinicalExaminationController/investigation';
+$route['diagnosis'] = 'ClinicalExaminationController/diagnosis';
+$route['treatment_plan'] = 'ClinicalExaminationController/treatment_plan';
+$route['treatment_charges'] = 'ClinicalExaminationController/treatment_charges';
+
+$route['schedule_appointment'] = 'AppointmentController/schedule_appointment';
+$route['edit_appointment'] = 'AppointmentController/edit_appointment';
+$route['future_appointment'] = 'AppointmentController/future_appointment';
+$route['appointment_history'] = 'AppointmentController/appointment_history';

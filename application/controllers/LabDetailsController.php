@@ -5,7 +5,7 @@ class LabDetailsController extends MY_Controller {
     $this->load->model('Custom_model');
   }
     public function index() {
-        $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/lab-details-side-menu');
-        $this->template->load('template/gradient-able-template/admin-template');
+        $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/lab-details-side-menu','content'=>'patient/empty_tab');
+        $this->template->load('template/gradient-able-template/admin-template',$template_part);
     }
 }

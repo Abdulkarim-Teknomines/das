@@ -150,8 +150,8 @@ $CI->load->model('Patient_model');
                                         foreach($sub_cat as $subcat){ ?>
                                             <option value="<?php echo $subcat->id;?>"><?php echo $subcat->name;?></option>
                                         <?php   }
-                                        }
-                                        ?>
+                                    }
+                                    ?>
                                 </select>
                             </div>
                         </div>
@@ -174,7 +174,8 @@ $CI->load->model('Patient_model');
     $(document).ready(function(){
         $(".sub_categories").select2({
             placeholder: "Select Sub Speciality",
-            tags: true,
+            theme: "classic",
+            
         });
 
     $("#search").click(function(){
