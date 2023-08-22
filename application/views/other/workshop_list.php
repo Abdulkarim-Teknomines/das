@@ -2,6 +2,10 @@
     .error{
         color:red;
     }
+    table.dataTable thead tr {
+  background-color: #000;
+  color:#fff;
+}
 </style>
 
 <div class="card">

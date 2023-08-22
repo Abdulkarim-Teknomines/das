@@ -58,11 +58,10 @@ class Patient_model extends CI_Model {
         return $result;
     }
     public function get_sub_categories($id=FALSE){
-        
-            $this->db->select('*');
-            $this->db->where('category_id',$id);
-            $this->db->from('da_sub_categories');
-            $result = $this->db->get()->result();
+        $this->db->select('*');
+        $this->db->where('category_id',$id);
+        $this->db->from('da_sub_categories');
+        $result = $this->db->get()->result();
         
         return $result;
     }
@@ -78,14 +77,30 @@ class Patient_model extends CI_Model {
         return $result;
     }
     public function appointment_details(){
-        $this->db->select('*');
-
+        
+        $this->db->select('da_appointments.id as id,da_appointments.appointment_date,da_appointments.appointment_time,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem');
         if($this->admin_session->role_id!="1"){
-            $this->db->where('clinic_id',$this->admin_session->clinic_id);
-            $this->db->where('clinic_user_id',$this->admin_session->id);
+            $this->db->where('da_appointments.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_appointments.clinic_user_id',$this->admin_session->id);
         }
+        $this->db->join('da_clinic_user','da_clinic_user.id=da_appointments.doctor_id','left');
+        $this->db->join('da_patients','da_patients.id=da_appointments.patient_id','left');
         $this->db->from('da_appointments');
         $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_appointment_details($id){
+        
+        $this->db->select('da_appointments.id as id,da_appointments.appointment_date,da_appointments.appointment_time,da_clinic_user.id as doctor_id,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('da_appointments.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_appointments.clinic_user_id',$this->admin_session->id);
+        }
+        $this->db->where('da_appointments.id',$id);
+        $this->db->join('da_clinic_user','da_clinic_user.id=da_appointments.doctor_id','left');
+        $this->db->join('da_patients','da_patients.id=da_appointments.patient_id','left');
+        $this->db->from('da_appointments');
+        $result = $this->db->get()->row();
         return $result;
     }
 }

@@ -25,13 +25,14 @@
                             </a>
                         </div>
                     </div>
+                    <?php $admin_session = $this->session->userdata('admin_session');?>
                     <div class="col-lg-3">
                         <div class="navbar-container container-fluid">
                             <ul class="nav-right">
                                 <li class="user-profile header-notification">
                                     <a href="#!">
                                         <img src="<?php echo base_url()?>assets/images/avatar-4.jpg" class="img-radius" alt="User-Profile-Image">
-                                        <span>John Doe</span>
+                                        <span><?php echo $admin_session->full_name;?></span>
                                         <i class="ti-angle-down"></i>
                                     </a>
                                     <ul class="show-notification profile-notification">

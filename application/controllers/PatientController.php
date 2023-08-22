@@ -66,7 +66,7 @@ class PatientController extends MY_Controller {
             if($result!=false){
                 $last_id = $result;
                 $inc_id = 'DA0000000';
-                $inrno=str_pad((int)$last_id, 7, 0, STR_PAD_LEFT);
+                $inrno='DA'.str_pad((int)$last_id, 7, 0, STR_PAD_LEFT);
                 $ir['patient_id'] = $inrno;
                 $result = $this->Patient_model->edit_data_where($ir,array('id'=>$last_id),'da_patients');
                 $data=array('status'=>'success','message'=>'Patient Added Succesfully','patient_id'=>$inrno);

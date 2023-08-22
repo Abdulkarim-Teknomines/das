@@ -46,14 +46,14 @@ class AppointmentController extends MY_Controller {
     $result = $this->Patient_model->appointment_details();
     if(!empty($result)){
         foreach($result as $e){
-            $data[]=array(
-            'select',
-            $e->appointment_date,
-            $e->appointment_time,
-            'doctor',
-            'patient_id',
-            'patient_name',
-            'treatment'
+          $data[]=array(
+          '<input type="radio" id="appointment_id" class="appointment_id" value="'.$e->id.'">',
+          $e->appointment_date,
+          $e->appointment_time,
+          $e->doctor_name,
+          $e->patient_id,
+          $e->first_name,
+          'treatment'
           );
         }
     }
@@ -65,5 +65,32 @@ class AppointmentController extends MY_Controller {
     );
     echo json_encode($results);
   }
-  
+  public function edit_appointments($appointment_id){
+    $data['blood_group'] = $this->blood_group;
+    $categories = $this->Patient_model->get_categories();
+    $data['categories'] = $categories;
+    $doctors = $this->Patient_model->get_doctors();
+    $data['doctors'] = $doctors;
+    $appointment_details = $this->Patient_model->get_appointment_details($appointment_id);
+    $data['appointment_details'] = $appointment_details;
+    $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/appointment-side-menu', 'content' => 'appointment/edit_appointment_details');
+    $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);    
+  }
+  public function update_appointment(){
+    $appointment_id = $this->input->post('appointment_id');
+    $appointment_date = $this->input->post('appointment_date');
+    $appointment_time = $this->input->post('appointment_time');
+    $doctor_id = $this->input->post('doctor_id');
+    $patient_id = $this->input->post('patient_id');
+    $data = array(
+      'appointment_date'=>$appointment_date,
+      'appointment_time'=>$appointment_time,
+      'doctor_id'=>$doctor_id
+    );    
+    $result = $this->Patient_model->edit_data_where($data,array('id'=>$appointment_id),'da_appointments');
+    if($result!=false){
+      $data=array('status'=>'success','message'=>'Appointment Updated','patient_id'=>$patient_id,'appointment_date'=>$appointment_date,'appointment_time'=>$appointment_time);
+    }
+    echo json_encode($data);
+  }
 }
