@@ -8,15 +8,18 @@
 p{
 text-align:left;
 }
-
+.signup-card.auth-body {
+    width: 450px;
+    margin-bottom: 70px;
+}
 </style>
-<section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+<section class="login">
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
-                    <div class="signup-card card-block auth-body mr-auto ml-auto">
+                    <div class="login-card card-block auth-body mr-auto ml-auto">
                         <form class="md-float-material" method="post">
                             <div class="text-center">
                                 <img src="<?php echo base_url()?>assets/images/logos.png" width="100%" alt="logo.png">

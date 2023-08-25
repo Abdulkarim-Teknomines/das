@@ -140,7 +140,12 @@ function edit_data_where($data, $where, $table_name) {
         }
     }
     $rs = $this->db->update($table_name, $data);
-    return $rs;
+    if ($this->db->affected_rows() > 0) {
+        // return true;
+        return $rs;
+    } else {
+        return false;
+    }
 }
     
 function delete_row_by_conditions($table_name, $where) {

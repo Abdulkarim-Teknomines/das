@@ -227,7 +227,20 @@ $(document).on('submit',function(e){
         dataType: 'json', 
         type: 'post',
         success: function(data) {
-            
+            if(data.status=='success'){
+                Swal.fire({
+                    title: data.message,
+                    text: 'Patient ID : '+data.patient_id+
+                    ' Appointment Date : '+data.appointment_date+
+                    ' Appointment Time : '+appointment_time,
+                    // icon:'success',
+                    allowOutsideClick: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                })
+            }
         }             
     });
 });

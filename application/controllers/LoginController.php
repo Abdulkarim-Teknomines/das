@@ -16,13 +16,15 @@ class LoginController extends MY_Controller {
         if($this->form_validation->run()==TRUE){
             $email = $this->input->post('email');
             $password = $this->input->post('password'); 
-            $this->db->select('*');
+            $this->db->select('da_clinic_user.*');
             $this->db->from('da_clinic_user');
             $this->db->where('email_id',$email);
             $this->db->where('password',MD5($password));
             // $this->db->where('is_verified','1');
             $data = $this->db->get();
             $result = $data->row();
+            // echo $this->db->last_query();die;
+            
             if($data->num_rows()<=0){
                 $this->session->set_flashdata('error','Username or Password is Incorrect');
             }else{

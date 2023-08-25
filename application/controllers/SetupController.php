@@ -437,6 +437,7 @@ class SetupController extends MY_Controller {
             }
         }
         $result = $this->Custom_model->get_clinic($clinic_id);
+        
         $data['result'] = $result;
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/setup-side-menu','content'=>'setup/clinic/edit_clinic');
      $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);

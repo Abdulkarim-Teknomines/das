@@ -166,7 +166,7 @@ $CI->load->model('Patient_model');
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
@@ -207,19 +207,19 @@ $CI->load->model('Patient_model');
                     $("#patient_id").val('');
                     return false;
                 }else{
-                $(data).each(function(key,val){
-                    $("#first_name").val(val.first_name);
-                    $("#last_name").val(val.last_name);
-                    $("#email_id").val(val.email_id);
-                    $("#mobile_number").val(val.mobile_no);
-                    $("#whatsapp_number").val(val.whatssapp_no);
-                    $("#birth_date").val(val.birth_date);
-                    $("#address").val(val.address);
-                    $("#patient_problem").val(val.patient_problem);
-                    $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
-                    $("input:radio[value='"+val.gender+"']").prop('checked',true);
-                    $("#patient_id").val(val.id);
-                });
+                    $(data).each(function(key,val){
+                        $("#first_name").val(val.first_name);
+                        $("#last_name").val(val.last_name);
+                        $("#email_id").val(val.email_id);
+                        $("#mobile_number").val(val.mobile_no);
+                        $("#whatsapp_number").val(val.whatssapp_no);
+                        $("#birth_date").val(val.birth_date);
+                        $("#address").val(val.address);
+                        $("#patient_problem").val(val.patient_problem);
+                        $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
+                        $("input:radio[value='"+val.gender+"']").prop('checked',true);
+                        $("#patient_id").val(val.id);
+                    });
                 }
             }             
         });
@@ -279,7 +279,17 @@ $CI->load->model('Patient_model');
             dataType: 'json', 
             type: 'post',
             success: function(data) {
-                
+                if(data.status=='success'){
+                Swal.fire({
+                    title: data.message,
+                    // icon:'success',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                })
+            }
             }             
         });
            

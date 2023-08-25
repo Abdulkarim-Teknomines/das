@@ -8,18 +8,23 @@
 p{
 text-align:left;
 }
+.signup-card.auth-body {
+    width: 450px;
+    margin-bottom: 70px;
+}
 
 </style>
-<section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+<section class="login">
         <!-- Container-fluid starts -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
-                    <div class="signup-card card-block auth-body mr-auto ml-auto">
+                    <div class="login-card card-block auth-body mr-auto ml-auto">
                         <form class="md-float-material" method="post">
                             <div class="text-center">
-                                <img src="<?php echo base_url()?>assets/images/logos.png" width="100%" alt="logo.png">
+                            <img src="<?php echo base_url()?>assets/images/logos.png" alt="logo.png"
+                                style="width:100%;height:auto">
                             </div>
                             
                             <?php if($this->session->flashdata('success')){?>
@@ -39,34 +44,34 @@ text-align:left;
                                 <hr/>
 
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="firstname" placeholder="First Name *" name="firstname" value="<?php echo set_value('firstname');?>">
+                                    <input type="text" class="form-control" id="firstname" placeholder="First Name *" name="firstname" value="<?php echo set_value('firstname');?>" autocomplete="off">
                                     <span class="md-line"></span>
                                 </div>
                                 <?php echo form_error('firstname');?>
 
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="lastname" placeholder="Last Name *" name="lastname" value="<?php echo set_value('lastname');?>">
+                                    <input type="text" class="form-control" id="lastname" placeholder="Last Name *" name="lastname" value="<?php echo set_value('lastname');?>" autocomplete="off">
                                     <span class="md-line"></span>
                                 </div>
 
                                 <?php echo form_error('lastname');?>
 
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="email" placeholder="Email ID *" name="email" value="<?php echo set_value('email');?>">
+                                    <input type="text" class="form-control" id="email" placeholder="Email ID *" name="email" value="<?php echo set_value('email');?>" autocomplete="off">
                                     <span class="md-line"></span>
                                 </div>
 
                                 <?php echo form_error('email');?>
 
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="mobile" placeholder="Mobile Number *" name="mobile_number" value="<?php echo set_value('mobile_number');?>">
+                                    <input type="text" class="form-control" id="mobile" placeholder="Mobile Number *" name="mobile_number" value="<?php echo set_value('mobile_number');?>" autocomplete="off">
                                     <span class="md-line"></span>
                                 </div>
                                 <?php echo form_error('mobile_number');?>
 
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <input type="submit" name="signup" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" value="Sign up">
+                                        <input type="submit" name="signup" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20" value="Sign up" autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="row m-t-30">

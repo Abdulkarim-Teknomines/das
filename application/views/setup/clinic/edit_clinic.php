@@ -35,14 +35,14 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Email</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control email" placeholder="Enter Email" name="email" id="email"  value="<?php echo set_value('email');?>" autocomplete="off">
+                            <input type="text" class="form-control email" placeholder="Enter Email" name="email" id="email"  value="<?php echo set_value('email',$result->email);?>" autocomplete="off">
                         </div>
                 </div>
                 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Landline Number</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control landline_number" placeholder="Enter Landline Number" name="landline_number"  id="landline_number" value="<?php echo set_value('landline_number');?>" autocomplete="off">
+                            <input type="text" class="form-control landline_number" placeholder="Enter Landline Number" name="landline_number"  id="landline_number" value="<?php echo set_value('landline_number',$result->landline_number);?>" autocomplete="off">
                         </div>
                 </div>
                 <div class="form-group row">
@@ -55,19 +55,19 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Appointment Number</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control appointment_number" placeholder="Enter Appointment Number" name="appointment_number" id="appointment_number" value="<?php echo set_value('appointment_number');?>" autocomplete="off">
+                        <input type="text" class="form-control appointment_number" placeholder="Enter Appointment Number" name="appointment_number" id="appointment_number" value="<?php echo set_value('appointment_number',$result->appointment_number);?>" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Website</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control website" placeholder="Enter Website" name="website" id="website" value="<?php echo set_value('website');?>" autocomplete="off">
+                        <input type="text" class="form-control website" placeholder="Enter Website" name="website" id="website" value="<?php echo set_value('website',$result->website);?>" autocomplete="off">
                     </div>
                 </div>    
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Payment</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control payment" placeholder="Enter Payment"  name="payment"  id="payment" value="<?php echo set_value('payment');?>" autocomplete="off">
+                        <input type="text" class="form-control payment" placeholder="Enter Payment"  name="payment"  id="payment" value="<?php echo set_value('payment',$result->payment);?>" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group row">

@@ -199,12 +199,17 @@ class PatientController extends MY_Controller {
             'doctor_id' =>$doctor_id
         );
         $ins_data = $this->Patient_model->insert_data($data_res,'da_patient_details');
+        if($ins_data!=false){
+            $data=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id);
+            echo json_encode($data);
+        }
     }
     public function appointment_book(){
        $patient_id = $this->input->post('patient_id');
        $appointment_date = $this->input->post('appointment_date');
        $appointment_time = $this->input->post('appointment_time');
        $doctor_id = $this->input->post('doctor_id');
+       $appointment_date=date("Y-m-d", strtotime($appointment_date));
        $data = array(
             'patient_id'=>$patient_id,
             'appointment_date'=>$appointment_date,
@@ -214,7 +219,13 @@ class PatientController extends MY_Controller {
             'clinic_id'=>$this->admin_session->clinic_id
        );
        $ins_data = $this->Patient_model->insert_data($data,'da_appointments');
-    }
+       if($ins_data!=false){
+            $data=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id,'appointment_date'=>$this->input->post('appointment_date'),'appointment_time'=>$appointment_time);
+          }else{
+
+          }
+          echo json_encode($data);
+       }
     public function edit_patient(){
         $data['blood_group'] = $this->blood_group;
         $categories = $this->Patient_model->get_categories();

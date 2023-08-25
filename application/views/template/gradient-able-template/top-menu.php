@@ -37,21 +37,21 @@
                                     </a>
                                     <ul class="show-notification profile-notification">
                                         <li>
-                                            <a href="#!">
+                                            <a href="<?php echo base_url('settings')?>">
                                                 <i class="ti-settings"></i> Settings
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="user-profile.html">
+                                            <a href="<?php echo base_url('profile')?>">
                                                 <i class="ti-user"></i> Profile
                                             </a>
                                         </li>
                                         
-                                        <li>
+                                        <!-- <li>
                                             <a href="auth-lock-screen.html">
                                                 <i class="ti-lock"></i> Lock Screen
                                             </a>
-                                        </li>
+                                        </li> -->
                                         <li>
                                             <a href="<?php echo base_url('logout')?>">
                                             <i class="ti-layout-sidebar-left"></i> Logout
@@ -65,20 +65,23 @@
                     </div>
                </div>
                <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 col-sm-12 col-md-12">
                     <div class="navbar-container container-fluid">
-                        <ul class="nav-right">
+                            <ul class="nav-right">
                                 <li><a href="<?php echo base_url();?>dashboard">DASHBOARD</a></li>
                                 <li><a href="<?php echo base_url();?>patient">PATIENT</a></li>
                                 <li><a href="<?php echo base_url();?>appointment">APPOINTMENT</a></li>
-                                <li><a href="<?php echo base_url();?>clinical_examinations">CLINICAL EXAMINATIONS</a></li>
-                                <li><a href="<?php echo base_url();?>lab_details">LAB DETAILS</a></li>
-                                <li><a href="<?php echo base_url();?>treatment">TREATMENT</a></li>
-                                <li><a href="<?php echo base_url();?>education_videos">EDUCATION VIDEOS</a></li>
+                                <li><a href="#">CLINICAL EXAMINATIONS</a></li>
+                                <!-- <li><a href="<?php echo base_url();?>clinical_examinations">CLINICAL EXAMINATIONS</a></li> -->
+                                <li><a href="#">LAB DETAILS</a></li>
+                                <!-- <li><a href="<?php echo base_url();?>lab_details">LAB DETAILS</a></li> -->
+                                <li><a href="#">TREATMENT</a></li>
+                                <!-- <li><a href="<?php echo base_url();?>treatment">TREATMENT</a></li> -->
+                                <!-- <li><a href="<?php echo base_url();?>education_videos">EDUCATION VIDEOS</a></li> -->
+                                <li><a href="#">EDUCATION VIDEOS</a></li>
                                 <li><a href="<?php echo base_url();?>other">OTHER</a></li>
                                 <li><a href="<?php echo base_url();?>setup">SETUP</a></li>
-                                
-                                </ul>
+                            </ul>
                         </div>
                     </div>
                </div>
