@@ -178,7 +178,7 @@ $CI->load->model('Patient_model');
             
         });
 
-    $("#search").click(function(){
+        $("#search").click(function(){
         $(".error").remove();
         if($("#patient_id_or_number").val()==""){
             $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');

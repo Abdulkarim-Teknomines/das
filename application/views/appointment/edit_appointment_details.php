@@ -1,3 +1,7 @@
+<?php 
+$CI =& get_instance();
+$CI->load->model('Patient_model');
+?>
 <style>
     .error{
         color:red;
@@ -128,9 +132,39 @@
                         </div>
                 </div>
                 <div class="form-group row">
+                    <div class="col-sm-2 btn btn-primary text-center m-b-20"><span>Speciality *</span></div>
+                </div>
+                <?php 
+                if(!empty($categories)){
+                foreach($categories as $cat){ ?>
+                    <div class="form-group row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input categories[]" name="categories[]" id="categories[]" value="<?php echo $cat->id;?>"  <?php if(!empty($patient_categories)){foreach($patient_categories as $pt){if($pt->category_id==$cat->id){echo "checked";}}} ?> disabled>
+                                <label class="form-label"><?php echo $cat->category_name;?></label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control sub_categories" name="sub_categories[]" id="sub_categories_<?php echo $cat->id;?>" multiple="multiple" disabled>
+                                <option value="">Select Sub Speciality</option>
+                                <?php $sub_cat = $CI->Patient_model->get_sub_categories($cat->id);
+                                if(!empty($sub_cat)){
+                                    foreach($sub_cat as $subcat){ ?>
+                                        <option value="<?php echo $subcat->id;?>" <?php foreach($patient_categories as $pt){ if(!empty($patient_categories)){if(in_array($subcat->id, explode(',',$pt->sub_category_id))){echo "selected";}}} ?>><?php echo $subcat->name;?></option>
+                                    <?php   }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                <?php }} ?>
+                <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Book on Appointment" autocomplete="off">
+                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Edit Appointment" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -138,10 +172,17 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script>
   $(document).ready(function(){
+    $(".sub_categories").select2({
+        placeholder: "Select Sub Speciality",
+        theme: "classic",
+    });
+    
     $("#appointment_date").datepicker({ 
-        format: 'dd-mm-yyyy',
+        format: 'yyyy-mm-dd',
         autoclose: true, 
         todayHighlight: true,
 

@@ -186,17 +186,15 @@ $CI->load->model('Patient_model');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 
 <script>
-  $(document).ready(function(){
+$(document).ready(function(){
     $(".sub_categories").select2({
-            placeholder: "Select Sub Speciality",
-            theme: "classic",
-            
-        });
+        placeholder: "Select Sub Speciality",
+        theme: "classic",
+    });
     $("#appointment_date").datepicker({ 
         format: 'dd-mm-yyyy',
         autoclose: true, 
         todayHighlight: true,
-
     });
     $('#appointment_time').datetimepicker({
         format: 'HH:mm',
@@ -207,7 +205,6 @@ $CI->load->model('Patient_model');
             $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
             return false;
         }
-    
         var patient_id_number = $("#patient_id_or_number").val();
         $.ajax({
             url: "<?php echo base_url('PatientController/search_patient_details');?>",
@@ -230,19 +227,19 @@ $CI->load->model('Patient_model');
                     $("#patient_id").val('');
                     return false;
                 }else{
-                $(data).each(function(key,val){
-                    $("#first_name").val(val.first_name);
-                    $("#last_name").val(val.last_name);
-                    $("#email_id").val(val.email_id);
-                    $("#mobile_number").val(val.mobile_no);
-                    $("#whatsapp_number").val(val.whatssapp_no);
-                    $("#birth_date").val(val.birth_date);
-                    $("#address").val(val.address);
-                    $("#patient_problem").val(val.patient_problem);
-                    $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
-                    $("input:radio[value='"+val.gender+"']").prop('checked',true);
-                    $("#patient_id").val(val.id);
-                });
+                    $(data).each(function(key,val){
+                        $("#first_name").val(val.first_name);
+                        $("#last_name").val(val.last_name);
+                        $("#email_id").val(val.email_id);
+                        $("#mobile_number").val(val.mobile_no);
+                        $("#whatsapp_number").val(val.whatssapp_no);
+                        $("#birth_date").val(val.birth_date);
+                        $("#address").val(val.address);
+                        $("#patient_problem").val(val.patient_problem);
+                        $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
+                        $("input:radio[value='"+val.gender+"']").prop('checked',true);
+                        $("#patient_id").val(val.id);
+                    });
                 }
             }             
         });
@@ -253,6 +250,7 @@ $CI->load->model('Patient_model');
         todayHighlight: true,
 
     });
+    
 });
 
 </script>

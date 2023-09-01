@@ -92,6 +92,35 @@ class Patient_model extends CI_Model {
         $result = $this->db->get()->result();
         return $result;
     }
+    public function appointment_details_by_date($date=''){
+        $this->db->select('da_appointments.id as id,da_appointments.appointment_date as appointment_date,da_appointments.appointment_time,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem');
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('da_appointments.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_appointments.clinic_user_id',$this->admin_session->id);
+        }
+        if($date!=""){
+            $this->db->where("da_appointments.appointment_date", $date);
+            
+        }
+        $this->db->join('da_clinic_user','da_clinic_user.id=da_appointments.doctor_id','left');
+        $this->db->join('da_patients','da_patients.id=da_appointments.patient_id','left');
+        $this->db->from('da_appointments');
+        $result = $this->db->get()->result();
+        
+        return $result;
+    }
+    public function get_count_appointment($month='',$year=''){
+        $this->db->select("count(da_appointments.id) as title,da_appointments.appointment_date as start");
+        if($month!="" && $year!=""){
+            $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%m')", $month);
+            $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%Y')", $year );
+        }
+        // $this->db->group_by('da_appointments.appointment_date');
+        $this->db->group_by('da_appointments.appointment_date');
+        $this->db->from('da_appointments');
+        $result = $this->db->get()->result();
+        return $result;
+    }
     public function get_appointment_details($id){
         $this->db->select('da_appointments.id as id,da_appointments.appointment_date,da_appointments.appointment_time,da_clinic_user.id as doctor_id,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem,da_patients.id as patient_master_id');
         if($this->admin_session->role_id!="1"){
@@ -109,6 +138,12 @@ class Patient_model extends CI_Model {
         $this->db->select('da_patient_categories.*');
         $this->db->where('da_patient_categories.patient_id',$patient_id);
         $this->db->from('da_patient_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_medical_history(){
+        $this->db->select('da_medical_history_category.*');
+        $this->db->from('da_medical_history_category');
         $result = $this->db->get()->result();
         return $result;
     }

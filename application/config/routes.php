@@ -107,3 +107,4 @@ $route['edit_appointments/(:any)'] = 'AppointmentController/edit_appointments/$1
 $route['view_appointment_details/(:any)'] = 'AppointmentController/view_appointments_details/$1';
 $route['settings'] = 'AdminController/settings';
 $route['profile']= 'AdminController/profile';
+

@@ -71,8 +71,8 @@
                                 <li><a href="<?php echo base_url();?>dashboard">DASHBOARD</a></li>
                                 <li><a href="<?php echo base_url();?>patient">PATIENT</a></li>
                                 <li><a href="<?php echo base_url();?>appointment">APPOINTMENT</a></li>
-                                <li><a href="#">CLINICAL EXAMINATIONS</a></li>
-                                <!-- <li><a href="<?php echo base_url();?>clinical_examinations">CLINICAL EXAMINATIONS</a></li> -->
+                                <!-- <li><a href="#">CLINICAL EXAMINATIONS</a></li> -->
+                                <li><a href="<?php echo base_url();?>clinical_examinations">CLINICAL EXAMINATIONS</a></li>
                                 <li><a href="#">LAB DETAILS</a></li>
                                 <!-- <li><a href="<?php echo base_url();?>lab_details">LAB DETAILS</a></li> -->
                                 <li><a href="#">TREATMENT</a></li>

@@ -58,7 +58,34 @@ class AppointmentController extends MY_Controller {
     if(!empty($result)){
         foreach($result as $e){
           $data[]=array(
-          '<input type="radio" id="appointment_id" class="appointment_id" value="'.$e->id.'">',
+          '<input type="radio" id="appointment_id" name="appointment_id" class="appointment_id" value='.$e->id.'>',
+          $e->appointment_date,
+          $e->appointment_time,
+          $e->doctor_name,
+          $e->patient_id,
+          $e->first_name,
+          'treatment'
+          );
+        }
+    }
+    $results=array(
+      "draw"=>$draw,
+      "recordsTotal"=>count($result),
+      "recordsFiltered"=>count($result),
+      "data"=>$data
+    );
+    echo json_encode($results);
+  }
+  public function view_appointment_details_by_date(){
+    $date = $this->input->post('date');
+    
+    $draw='';
+    $data = array();
+    $result = $this->Patient_model->appointment_details_by_date($date);
+    if(!empty($result)){
+        foreach($result as $e){
+          $data[]=array(
+          '<input type="radio" id="appointment_id" class="appointment_id" name="appointment_id" value='.$e->id.'>',
           $e->appointment_date,
           $e->appointment_time,
           $e->doctor_name,
@@ -96,8 +123,11 @@ class AppointmentController extends MY_Controller {
     $doctors = $this->Patient_model->get_doctors();
     $data['doctors'] = $doctors;
     $appointment_details = $this->Patient_model->get_appointment_details($appointment_id);
+    $patient_categories = $this->Patient_model->get_patient_categories($appointment_details->patient_master_id);
+    
+    $data['patient_categories'] = $patient_categories;
     $data['appointment_details'] = $appointment_details;
-
+      
     $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/appointment-side-menu', 'content' => 'appointment/edit_appointment_details');
     $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);    
   }
@@ -107,7 +137,7 @@ class AppointmentController extends MY_Controller {
     $appointment_time = $this->input->post('appointment_time');
     $doctor_id = $this->input->post('doctor_id');
     $patient_id = $this->input->post('patient_id');
-    $appointment_date=date("d-m-Y", strtotime($appointment_date));
+    // $appointment_date=date("d-m-Y", strtotime($appointment_date));
     $data = array(
       'appointment_date'=>$appointment_date,
       'appointment_time'=>$appointment_time,
@@ -119,5 +149,28 @@ class AppointmentController extends MY_Controller {
     }
     echo json_encode($data);
   }
-  
+  public function load(){
+    // echo $this->input->post('start');
+    $month = $this->input->post('month');
+    $year = $this->input->post('year');
+    $data = $this->Patient_model->get_count_appointment($month,$year);
+    
+    $da =array();
+    // foreach($data as $k){
+    //   // echo $k->appointment_count;
+    //   $da[] = array(
+    //     'number_of_records'=>$k->appointment_count,
+    //     'date'=>$k->appointment_date
+    //   ); 
+    // }
+    echo json_encode($data);
+  }
+  public function fetch_data(){
+    $selected_date = $this->input->get('date');
+    $data['month'] = $this->month;
+    $data['year'] = $this->year;
+    $data['selected_date'] = $selected_date;
+    $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/appointment-side-menu', 'content' => 'appointment/list_future_appointment');
+    $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
+  }
 }
