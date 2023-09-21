@@ -46,11 +46,12 @@
         </div>
     </div> -->
     <!-- Pre-loader end -->
+
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
-        
-        <?php echo $top_menu; ?>
+            <?php echo $top_menu; ?>
+          
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
                 <nav class="pcoded-navbar" navbar-theme="themelight1" active-item-theme="theme1" sub-item-theme="theme3" active-item-style="style0" pcoded-navbar-position="fixed">
@@ -78,7 +79,7 @@
                 </div>
             </div>
         </div>
-        
+    </div>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui/jquery-ui.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/popper.js/popper.min.js"></script>
     <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap/js/bootstrap.min.js"></script>
@@ -106,5 +107,25 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
 <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
 </body>
-
+<script>
+    $(function() {
+  $('.mCSB_container ul li a').each(function() {
+    
+    var isActive = this.pathname === location.pathname;
+    var link_text = $(this).text();
+    link_text = $.trim(link_text);
+    link_text=$.trim(link_text.split(' ').join('_')).toLowerCase();
+    var url = $(location).attr('href'),
+    parts = url.split("/"),
+    last_part = parts[parts.length-1];
+    if(last_part==link_text){
+        $(this).parent().toggleClass('active', isActive);
+        // text.replace(/#|_/g,function(match) {return (match=="#")? v: w;});
+        if($(this).parent().hasClass('active')){
+            $(".pcoded-hasmenu").addClass('pcoded-trigger complete');
+        }
+    }
+  });
+});
+</script>
 </html>

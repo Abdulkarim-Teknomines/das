@@ -63,90 +63,23 @@
         var mn = $("#month").val();
         var yr = $("#year").val();
         $(".calender-div").attr('display:block');
-        var events = [];
-        $.ajax({
-                        url: '<?php echo base_url()?>/AppointmentController/load',
-                        type: 'POST',
-                        data:{month:mn,year:yr},
-                        success:function(data)
-                        {
-                            // $.each(JSON.parse(data), function (i) {
-                                // console.log(data);
-                                // data_val.push(data);
-                                
-                                $.each(JSON.parse(data), function(key,val) {
-                                    
-                                    
-                                    
-                                // $.each(val, function(key, value) {
-                                   
-                                    events.push({title: val.title , start: val.start,color:'red'});
-                                // });
-                                // $('.fc-day[data-date="'+data[i].date+'"').css('background', '#ff00cc');
-                            });
-                            
-                        }
-                    });
-                    console.log(events);
         $('#calendar').fullCalendar({
             editable:true,
-                header:{
-                    left:'',
-                    center:'title',
-                    right:''
-                },
-                eventLimit: true,
-                // events:function(start, end, timezone, callback) {
-                //     var mn = $("#month").val();
-                //     var yr = $("#year").val();
-                    
-                //     console.log(data_val);
-                // },
-
-                events:events,
-                // events: [
-                //     {
-                //         title: 'All Day Event',
-                //         start: '2023-08-01',
-                //         color: 'red',
-                //         textColor: 'white',
-                //     },
-                //     {
-                //         title: 'Long Event',
-                //         start: '2023-08-02',
-                //         color: 'red',
-                //         textColor: 'white',
-                //     },
-                    
-                //     {
-                //         title: 'Birthday Party',
-                //         start: '2023-08-01'
-                //     },
-                //     {
-                //         title: 'Click for Google',
-                //         url: 'http://google.com/',
-                //         start: '2023-08-01'
-                //     }
-                // ],
-                selectable:true,
-                selectHelper:true,
-                select:function(start, end, allDay)
-                {
-                    
-                    var selected_date = moment(start).format('YYYY-MM-DD');
-                    window.location.href="<?php echo base_url(); ?>AppointmentController/fetch_data?date="+selected_date;
-                        // $.ajax({
-                            // url:"<?php echo base_url(); ?>AppointmentController/fetch_data",
-                            // type:"POST",
-                            // data:{selected_date:selected_date},
-                            // success:function(data)
-                            // {
-                            //     console.log(data);
-                            // }
-                        // })
-                },
+            header:{
+                left:'',
+                center:'title',
+                right:''
+            },
+            eventLimit: true,
+            events:'<?php echo base_url()?>AppointmentController/load',
+            selectable:true,
+            selectHelper:true,
+            eventClick:function(info)
+            {
+                var selected_date = info.start.format();
+                window.location.href="<?php echo base_url(); ?>AppointmentController/fetch_data?date="+selected_date;
+            },
         });
-        $('#calendar').fullCalendar( 'addEventSource', events );
         $('#calendar').fullCalendar('gotoDate', yr+'-'+mn);
     });
     

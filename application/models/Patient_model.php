@@ -147,6 +147,112 @@ class Patient_model extends CI_Model {
         $result = $this->db->get()->result();
         return $result;
     }
+    public function get_dental_history(){
+        $this->db->select('da_dental_history_category.*');
+        $this->db->from('da_dental_history_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_treatment_charges(){
+        $this->db->select('da_treatment_charges_category.*');
+        $this->db->from('da_treatment_charges_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_clinical_examinator(){
+        $this->db->select('da_clinical_examinator_category.*');
+        $this->db->from('da_clinical_examinator_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_class_categories($id){
+        $this->db->select('da_class_category.*');
+        $this->db->where('da_class_category.clinical_examinator_category_id',$id);
+        $this->db->from('da_class_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_deep_caries_class($id){
+        $this->db->select('da_deep_caries_category.*');
+        $this->db->where('da_deep_caries_category.clinical_examinator_category_id',$id);
+        $this->db->from('da_deep_caries_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_deep_caries_class_category($id){
+        $this->db->select('da_deep_caries_class_category.*');
+        $this->db->where('da_deep_caries_class_category.deep_caries_category_id',$id);
+        $this->db->from('da_deep_caries_class_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_treatment_plan(){
+        $this->db->select('da_treatment_plan_category.*');
+        $this->db->from('da_treatment_plan_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_treatment_plan_sub_categories($id){
+        $this->db->select('treatment_plan_sub_categories.*');
+        $this->db->where('treatment_plan_sub_categories.treatment_plan_category_id',$id);
+        $this->db->from('treatment_plan_sub_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_investigation_category(){
+        $this->db->select('da_investigation_category.*');
+        $this->db->from('da_investigation_category');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_investigation_iopa_sub_category($id){
+        $this->db->select('da_investigation_iopa_sub_categories.*');
+        $this->db->where('da_investigation_iopa_sub_categories.category_id',$id);
+        $this->db->from('da_investigation_iopa_sub_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_investigation_cbct_sub_categories($id){
+        $this->db->select('da_investigation_cbct_sub_categories.*');
+        $this->db->where('da_investigation_cbct_sub_categories.investigation_cbct_category_id',$id);
+        $this->db->from('da_investigation_cbct_sub_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_investigation_blood_examination_blood_sub_categories($id){
+        $this->db->select('da_investigation_blood_examination_sub_categories.*');
+        $this->db->where('da_investigation_blood_examination_sub_categories.investigation_blood_examination_blood_sub_category_id',$id);
+        $this->db->from('da_investigation_blood_examination_sub_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_diagnosis_category(){
+        $this->db->select('da_diagnosis_categories.*');
+        $this->db->from('da_diagnosis_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_diagnosis_sub_categories($id){
+        $this->db->select('da_diagnosis_sub_categories.*');
+        $this->db->where('da_diagnosis_sub_categories.diagnosis_category_id',$id);
+        $this->db->from('da_diagnosis_sub_categories');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_diagnosis_sub_categories_class($id){
+        $this->db->select('da_diagnosis_sub_categories_class.*');
+        $this->db->where('da_diagnosis_sub_categories_class.diagnosis_sub_category_id',$id);
+        $this->db->from('da_diagnosis_sub_categories_class');
+        $result = $this->db->get()->result();
+        return $result;
+    }
+    public function get_diagnosis_cagegory_class($id){
+        $this->db->select('da_diagnosis_cagegory_class.*');
+        $this->db->where('da_diagnosis_cagegory_class.diagnosis_category_id',$id);
+        $this->db->from('da_diagnosis_cagegory_class');
+        $result = $this->db->get()->result();
+        return $result;
+    }
 }
 
 

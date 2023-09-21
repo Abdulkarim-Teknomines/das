@@ -164,8 +164,6 @@ class PatientController extends MY_Controller {
         }else{
             echo json_encode(array());
         }
-
-        
     }
     public function store_patient_more_details(){
         $patient_id = $this->input->post('patient_id');
@@ -219,13 +217,13 @@ class PatientController extends MY_Controller {
             'clinic_id'=>$this->admin_session->clinic_id
        );
        $ins_data = $this->Patient_model->insert_data($data,'da_appointments');
-       if($ins_data!=false){
+        if($ins_data!=false){
             $data=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id,'appointment_date'=>$this->input->post('appointment_date'),'appointment_time'=>$appointment_time);
           }else{
 
           }
           echo json_encode($data);
-       }
+        }
     public function edit_patient(){
         $data['blood_group'] = $this->blood_group;
         $categories = $this->Patient_model->get_categories();

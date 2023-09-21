@@ -99,6 +99,11 @@ $route['diagnosis'] = 'ClinicalExaminationController/diagnosis';
 $route['treatment_plan'] = 'ClinicalExaminationController/treatment_plan';
 $route['treatment_charges'] = 'ClinicalExaminationController/treatment_charges';
 
+$route['lab_details/patient_selection'] = 'LabDetailsController/patient_selection';
+$route['lab_details/type_of_work'] = 'LabDetailsController/type_of_work';
+$route['lab_details/lab_address'] = 'LabDetailsController/lab_address';
+$route['lab_details/location'] = 'LabDetailsController/location';
+$route['lab_details/lab_charges'] = 'LabDetailsController/lab_charges';
 $route['schedule_appointment'] = 'AppointmentController/schedule_appointment';
 $route['edit_appointment'] = 'AppointmentController/edit_appointment';
 $route['future_appointment'] = 'AppointmentController/future_appointment';
@@ -108,3 +113,5 @@ $route['view_appointment_details/(:any)'] = 'AppointmentController/view_appointm
 $route['settings'] = 'AdminController/settings';
 $route['profile']= 'AdminController/profile';
 
+$route['education_videos/add_videos'] = 'EducationVideosController/add_videos';
+$route['education_videos/list_videos'] = 'EducationVideosController/list_videos';

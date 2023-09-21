@@ -252,18 +252,18 @@ class SetupController extends MY_Controller {
         if(!empty($result)){
             foreach($result as $e){
                 $data[]=array(
-                $e->clinic_name,
-                '<img src="'.base_url('upload/clinic_logo/').$e->logo.'" style="width:50px;height:50px;"></img>',
-                $e->address,
-                $e->email,
-                $e->landline_number,
-                $e->mobile_number,
-                $e->appointment_number,
-                $e->website,
-                $e->payment,
-                '<img src="'.base_url('upload/qr_code/').$e->qr_code.'" style="width:50px;height:50px;"></img>',
-                '<a href="'.base_url('edit_clinic/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
-            );
+                    $e->clinic_name,
+                    '<img src="'.base_url('upload/clinic_logo/').$e->logo.'" style="width:50px;height:50px;"></img>',
+                    $e->address,
+                    $e->email,
+                    $e->landline_number,
+                    $e->mobile_number,
+                    $e->appointment_number,
+                    $e->website,
+                    $e->payment,
+                    '<img src="'.base_url('upload/qr_code/').$e->qr_code.'" style="width:50px;height:50px;"></img>',
+                    '<a href="'.base_url('edit_clinic/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
+                );
             }
         }
         $results=array(
@@ -282,10 +282,10 @@ class SetupController extends MY_Controller {
         if(!empty($result)){
             foreach($result as $e){
                 $data[]=array(
-                $e->name,
-                $e->medicine_name,
-                '<a href="'.base_url('edit_medicine/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
-            );
+                    $e->name,
+                    $e->medicine_name,
+                    '<a href="'.base_url('edit_medicine/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
+                );
             }
         }
         $results=array(
@@ -326,16 +326,16 @@ class SetupController extends MY_Controller {
         
         if(!empty($result)){
             foreach($result as $e){
-                $data[]=array(
-                $e->clinic_name,
-                $e->user_id,
-                $e->full_name,
-                $e->mobile_number,
-                $e->address,
-                $e->email_id,
-                $e->name,
-                '<a href="'.base_url('edit_user/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
-            );
+                    $data[]=array(
+                    $e->clinic_name,
+                    $e->user_id,
+                    $e->full_name,
+                    $e->mobile_number,
+                    $e->address,
+                    $e->email_id,
+                    $e->name,
+                    '<a href="'.base_url('edit_user/').$e->id.'" class="edit btn btn-primary text-center">Edit</a>'
+                );
             }
         }
         $results=array(

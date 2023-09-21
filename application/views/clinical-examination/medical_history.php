@@ -64,13 +64,13 @@ $CI->load->model('Patient_model');
                         <div class="col-sm-2">
                             <div class="form-check-inline">
                                 <label class="form-check-label">
-                                <input type="checkbox" class="form-check-input categories" name="categories[]" id="categories_<?php echo $cat->id;?>" value="<?php echo $cat->id;?>" >
+                                <input type="checkbox" class="form-check-input categories" name="categories[]" id="categories_<?php echo $cat->id;?>" value="<?php echo $cat->id;?>" disabled>
                                 <label class="form-label"><?php echo $cat->category_name;?></label>
                                 </label>
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <select class="form-control sub_categories" name="sub_categories[]" id="sub_categories_<?php echo $cat->id;?>" multiple="multiple" >
+                            <select class="form-control sub_categories" name="sub_categories[]" id="sub_categories_<?php echo $cat->id;?>" multiple="multiple" disabled>
                                 <option value="">Select Sub Speciality</option>
                                 <?php $sub_cat = $CI->Patient_model->get_sub_categories($cat->id);
                                 if(!empty($sub_cat)){
@@ -101,12 +101,12 @@ $CI->load->model('Patient_model');
                     <?php } ?>
                 </div>
                 
-                <!-- <div class="form-group row">
+                <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Update" autocomplete="off">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20" value="Submit" autocomplete="off">
                     </div>
-                </div> -->
+                </div>
             </form>
         </div>
     </div>
@@ -150,7 +150,11 @@ $CI->load->model('Patient_model');
                     return false;
                 }else{
                     $(data).each(function(key,val){
-                        $("#patient_id").val(val.id);
+                        $("#patient_id").val(val.patient_master_id);
+                        
+                        $("#patient_name").val(val.first_name+' '+val.last_name);
+                        $("#appointment_date").val(val.appointment_date);
+                        $("#appointment_time").val(val.appointment_time);
                         $.ajax({
                             url: "<?php echo base_url('ClinicalExaminationController/patient_categories');?>",
                             data: ({patient_id:val.id}),
@@ -162,7 +166,7 @@ $CI->load->model('Patient_model');
                                         $('#categories_'+data[i].category_id).prop('checked', true);  
                                         $.each(result, function (j) {
                                             $("#sub_categories_"+data[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
-                                            $("#sub_categories_"+data[i].category_id).select2().trigger('change');
+                                            $("#sub_categories_"+data[i].category_id).select2({theme:"classic"}).trigger('change');
                                         });
                                 });
                             }

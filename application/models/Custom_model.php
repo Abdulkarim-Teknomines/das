@@ -120,6 +120,18 @@ class Custom_model extends CI_Model {
     }
     return $result;
    }
+   public function list_video_details(){
+    
+    $this->db->select('*');
+    if($this->admin_session->role_id!="1"){
+        $this->db->where('clinic_id',$this->admin_session->clinic_id);
+        $this->db->where('clinic_user_id',$this->admin_session->id);
+    }
+    $this->db->from('da_education_videos');
+
+    $result = $this->db->get()->result();
+    return $result;
+   }
    public function get_roles(){
     $this->db->select('*');
     $this->db->from('role');

@@ -151,19 +151,22 @@ class AppointmentController extends MY_Controller {
   }
   public function load(){
     // echo $this->input->post('start');
-    $month = $this->input->post('month');
-    $year = $this->input->post('year');
+    $month = $this->input->get('month');
+    $year = $this->input->get('year');
     $data = $this->Patient_model->get_count_appointment($month,$year);
-    
+    // echo "<pre>";print_r($data);
     $da =array();
-    // foreach($data as $k){
-    //   // echo $k->appointment_count;
-    //   $da[] = array(
-    //     'number_of_records'=>$k->appointment_count,
-    //     'date'=>$k->appointment_date
-    //   ); 
-    // }
-    echo json_encode($data);
+    foreach($data as $k){
+      // echo $k->appointment_count;
+      $da[] = array(
+        'title'=>$k->title,
+        'start'=>$k->start,
+        'backgroundColor' => '#000',
+        'textColor'       => '#fff',
+        
+      ); 
+    }
+    echo json_encode($da);
   }
   public function fetch_data(){
     $selected_date = $this->input->get('date');
