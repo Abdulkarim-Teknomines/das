@@ -133,6 +133,8 @@ class PatientController extends MY_Controller {
         $data['categories'] = $categories;
         $doctors = $this->Patient_model->get_doctors();
         $data['doctors'] = $doctors;
+        $categories = $this->Patient_model->get_categories();
+    $data['categories'] = $categories;
         $data_array = array();
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/patient-side-menu','content'=>'patient/search_patient');
         $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
@@ -150,17 +152,50 @@ class PatientController extends MY_Controller {
     }
     public function search_patient_details(){
         $patient_id_number = $this->input->post('patient_id_number');
+        $patient_id = $this->input->post('patient_id');
         $this->db->select('*');
         $this->db->from('da_patients');
-        $this->db->where('patient_id',$patient_id_number);
+        $this->db->where('da_patients.patient_id',$patient_id_number);
         if($this->admin_session->role_id!="1"){
-            $this->db->where('clinic_id',$this->admin_session->clinic_id);
-            $this->db->where('clinic_user_id',$this->admin_session->id);
+            $this->db->where('da_patients.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_patients.clinic_user_id',$this->admin_session->id);
         }
-        $this->db->or_where('mobile_no',$patient_id_number);
+        $this->db->or_where('da_patients.mobile_no',$patient_id_number);
+        $this->db->where('da_patients.id',$patient_id);
+        $this->db->join('da_appointments','da_patients.id=da_appointments.patient_id','left');
         $result = $this->db->get()->row_array();
         if(!empty($result)){
             echo json_encode($result);
+        }else{
+            echo json_encode(array());
+        }
+    }
+    public function search_patient_details1(){
+        $patient_id_number = $this->input->post('patient_id_number');
+        $patient_id = $this->input->post('patient_id');
+        $this->db->select('*');
+        $this->db->from('da_patients');
+        $this->db->where('da_patients.patient_id',$patient_id_number);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('da_patients.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_patients.clinic_user_id',$this->admin_session->id);
+        }
+        $this->db->or_where('da_patients.mobile_no',$patient_id_number);
+        $this->db->where('da_patients.id',$patient_id);
+        $this->db->join('da_appointments','da_patients.id=da_appointments.patient_id','left');
+        $result = $this->db->get()->row_array();
+        
+        $this->db->select('*');
+        $this->db->from('da_patient_categories');
+        $this->db->where('da_patient_categories.patient_id',$patient_id);
+        $results = $this->db->get()->result_array();
+        $data = array(
+            'patient_details'=>$result,
+            'categories'=>$results
+        );
+        // echo "<pre>";print_r($data);die;
+        if(!empty($result)){
+            echo json_encode($data);
         }else{
             echo json_encode(array());
         }
@@ -189,40 +224,65 @@ class PatientController extends MY_Controller {
             }
         }
         $this->db->where('patient_id', $patient_id);
-            $this->db->delete('da_patient_details');
+            $this->db->delete('da_appointments');
         $data_res = array(
-            'patient_id'=>$patient_id,
-            'appointment_date'=>$appointment_date,
-            'appointment_time' => $appointment_time,
-            'doctor_id' =>$doctor_id
-        );
-        $ins_data = $this->Patient_model->insert_data($data_res,'da_patient_details');
-        if($ins_data!=false){
-            $data=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id);
-            echo json_encode($data);
-        }
-    }
-    public function appointment_book(){
-       $patient_id = $this->input->post('patient_id');
-       $appointment_date = $this->input->post('appointment_date');
-       $appointment_time = $this->input->post('appointment_time');
-       $doctor_id = $this->input->post('doctor_id');
-       $appointment_date=date("Y-m-d", strtotime($appointment_date));
-       $data = array(
             'patient_id'=>$patient_id,
             'appointment_date'=>$appointment_date,
             'appointment_time' => $appointment_time,
             'doctor_id' =>$doctor_id,
             'clinic_user_id'=>$this->admin_session->id,
             'clinic_id'=>$this->admin_session->clinic_id
-       );
-       $ins_data = $this->Patient_model->insert_data($data,'da_appointments');
+        );
+        $ins_data = $this->Patient_model->insert_data($data_res,'da_appointments');
         if($ins_data!=false){
-            $data=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id,'appointment_date'=>$this->input->post('appointment_date'),'appointment_time'=>$appointment_time);
-          }else{
-
+            $data=array('status'=>'success','message'=>'Details Added Successfully','patient_id'=>$patient_id);
+            echo json_encode($data);
+        }
+    }
+    public function appointment_book(){
+        $doctor_id = $this->input->post('doctor_id'); 
+        $patient_id = $this->input->post('patient_id');
+        $appointment_date = $this->input->post('appointment_date');
+        $appointment_time = $this->input->post('appointment_time');
+        $appointment_date=date("Y-m-d", strtotime($appointment_date));
+        $this->db->select('*');
+        $this->db->from('da_appointments');
+        $this->db->where('patient_id',$patient_id);
+        $results = $this->db->get()->result_array();
+        if(!empty($results)){
+            $this->db->where('patient_id', $patient_id);
+            $this->db->delete('da_appointments');
+        }
+        $data = array(
+            'patient_id'=>$patient_id,
+            'appointment_date'=>$appointment_date,
+            'appointment_time' => $appointment_time,
+            'doctor_id' =>$doctor_id,
+            'clinic_user_id'=>$this->admin_session->id,
+            'clinic_id'=>$this->admin_session->clinic_id
+        );
+        $ins_data = $this->Patient_model->insert_data($data,'da_appointments');
+        
+        if(!empty($this->input->post('selected'))){
+            $this->db->where('patient_id', $patient_id);
+            $this->db->delete('da_patient_categories');
+            foreach($this->input->post('selected') as $key=>$val){
+                if(!empty($val)){
+                    $categories_id = $key;
+                    $sub_categories_id =implode(',',$val);
+                    $data_cat = array(
+                        'patient_id'=>$patient_id,
+                        'category_id'=>$categories_id,
+                        'sub_category_id' => $sub_categories_id
+                    );
+                    $this->Patient_model->insert_data($data_cat,'da_patient_categories');
+                }
+            }
+        }
+        if($ins_data!=false){
+            $datas=array('status'=>'success','message'=>'Appointment Confirmed','patient_id'=>$patient_id,'appointment_date'=>$this->input->post('appointment_date'),'appointment_time'=>$appointment_time);
           }
-          echo json_encode($data);
+          echo json_encode($datas);
         }
     public function edit_patient(){
         $data['blood_group'] = $this->blood_group;
@@ -233,5 +293,18 @@ class PatientController extends MY_Controller {
         $data_array = array();
         $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/patient-side-menu','content'=>'patient/edit_patients');
         $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
+    }
+    public function select_patient_id_change(){
+        $patient_id_number = $this->input->post('patient_id_number');
+        $this->db->select('*');
+        $this->db->from('da_patients');
+        $this->db->where('patient_id',$patient_id_number);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('clinic_user_id',$this->admin_session->id);
+        }
+        $this->db->or_where('mobile_no',$patient_id_number);
+        $result = $this->db->get()->result_array();
+        echo json_encode($result);
     }
 }

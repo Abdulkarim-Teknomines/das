@@ -2,7 +2,7 @@
     .error{
         color:red;
     }
-</style>
+</style> 
 <div class="card">
     <div class="card-header">
         <div class="card-block">
@@ -15,14 +15,26 @@
                     <div class="col-sm-9 col-xs-2">
                         <input type="text" class="form-control" placeholder="Enter Patient ID Or Phone Number" name="patient_id_or_number" id="patient_id_or_number" autocomplete="off">
                     </div>
-                    <div class="col-sm-1 col-xs-2">
+                    <!-- <div class="col-sm-1 col-xs-2">
+                        <input type="button" name="search" id="search" class="btn btn-primary text-center m-b-20 search" value="Search" autocomplete="off">
+                    </div> -->
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Patient ID *</label>
+                        <div class="col-sm-9 col-xs-2">
+                            <!-- <input type="text" class="form-control" placeholder="Patient ID" name="patient_ids" id="patient_ids" autocomplete="off"> -->
+                            <select class="form-control" name="patient_id" id="patient_id">
+                                <option value="">Please Select Patient ID</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 col-xs-2">
                         <input type="button" name="search" id="search" class="btn btn-primary text-center m-b-20 search" value="Search" autocomplete="off">
                     </div>
-                </div>
+                </div> 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Doctor *</label>
                     <div class="col-sm-10">
-                    <select class="form-control doctors" name="doctors" id="doctors" >
+                    <select class="form-control doctor_id" name="doctor_id" id="doctor_id" >
                         <option value="">Select Doctor Name</option>
                             <?php if(!empty($doctors)){
                                 foreach($doctors as $dr){ ?>
@@ -147,6 +159,26 @@
     });
     $('#appointment_time').datetimepicker({
         format: 'HH:mm',
+        icons: {
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+        }
+    });
+    $("#patient_id_or_number").focusout(function(){
+        var patient_id_number = $(this).val();
+        $.ajax({
+        type:'POST',
+        url:'<?php echo base_url('PatientController/select_patient_id_change'); ?>',
+        data:{patient_id_number:patient_id_number},
+        dataType: 'json',
+        success:function(data){
+                $('#patient_id').html('');
+                $('#patient_id').append( $('<option></option>').val("").html("Please Select Patient ID") )
+                $.each(data, function(val, text) {
+                    $('#patient_id').append( $('<option></option>').val(text.id).html(text.patient_id) )
+                });
+            }
+        });
     });
     $("#search").click(function(){
         $(".error").remove();
@@ -156,9 +188,10 @@
         }
     
         var patient_id_number = $("#patient_id_or_number").val();
+        var patient_id = $("#patient_id").val();
         $.ajax({
             url: "<?php echo base_url('PatientController/search_patient_details');?>",
-            data: ({patient_id_number,patient_id_number}),
+            data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
             success: function(data) {
@@ -172,9 +205,11 @@
                     $("#birth_date").val('');
                     $("#address").val('');
                     $("#patient_problem").val('');
+                    $("#appointment_date").val('');
+                    $("#appointment_time").val('');
                     $('#blood_group option[value=""]').attr("selected", "selected");
+                    $("#doctor_id").val('');
                     $("input:radio").prop('checked',false);
-                    $("#patient_id").val('');
                     return false;
                 }else{
                 $(data).each(function(key,val){
@@ -188,12 +223,14 @@
                     $("#patient_problem").val(val.patient_problem);
                     $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
                     $("input:radio[value='"+val.gender+"']").prop('checked',true);
-                    $("#patient_id").val(val.id);
+                    $("#appointment_date").val(val.appointment_date);
+                    $("#appointment_time").val(val.appointment_time);
+                    $("#doctor_id").val(val.doctor_id);
                 });
                 }
             }             
         });
-    });
+    })
     $("#birth_date").datepicker({ 
         format: 'dd-mm-yyyy',
         autoclose: true, 

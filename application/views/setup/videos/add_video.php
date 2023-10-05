@@ -11,11 +11,25 @@
             <?php $this->session->unset_userdata('success');?>
         <?php } ?>
             <form method="post" enctype="multipart/form-data">
-                <div class="form-group row">
+            <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Video Title *</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Enter Video Title" name="video_title" value="<?php echo set_value('video_title');?>">
+                        <?php echo form_error('video_title');?>
+                    </div>
+                </div>    
+            <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Video Description *</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" placeholder="Enter Video Description" name="video_description" value="<?php echo set_value('video_description');?>">
                         <?php echo form_error('video_description');?>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Video Thumbnail *</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control" name="video_image" value="<?php echo set_value('video_image');?>">
+                        <?php echo form_error('video_image');?>
                     </div>
                 </div>
                 <div class="form-group row">

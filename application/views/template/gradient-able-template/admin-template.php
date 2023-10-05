@@ -2,36 +2,34 @@
 <html lang="en">
 <head>
     <title>Dental Assist </title>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-      <meta name="description" content="Gradient Able Bootstrap admin template made using Bootstrap 4. The starter version of Gradient Able is completely free for personal project." />
-      <meta name="keywords" content="free dashboard template, free admin, free bootstrap template, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
-      <meta name="author" content="codedthemes">
-      <!-- Favicon icon -->
-      <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-      <!-- Google font-->
-      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
-      <!-- Required Fremwork -->
-      <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/bootstrap/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
-      <!-- themify-icons line icon -->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/themify-icons/themify-icons.css">
-	  <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/font-awesome/css/font-awesome.min.css">
-      <!-- ico font -->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/icofont/css/icofont.css">
-      <!-- Style.css -->
-      <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style.css">
-      <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/jquery.mCustomScrollbar.css"> -->
-      <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery/jquery.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Gradient Able Bootstrap admin template made using Bootstrap 4. The starter version of Gradient Able is completely free for personal project." />
+    <meta name="keywords" content="free dashboard template, free admin, free bootstrap template, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
+    <meta name="author" content="codedthemes">
+    <!-- Favicon icon -->
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <!-- Google font-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/icon/icofont/css/icofont.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/style.css">
+    <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url()?>assets/css/jquery.mCustomScrollbar.css"> -->
+    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery/jquery.min.js"></script>
 
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript" ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
   </head>
-
   <body>
   <body>
 	  <!-- <div class="fixed-button">
@@ -51,7 +49,6 @@
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
             <?php echo $top_menu; ?>
-          
             <div class="pcoded-main-container">
                 <div class="pcoded-wrapper">
                 <nav class="pcoded-navbar" navbar-theme="themelight1" active-item-theme="theme1" sub-item-theme="theme3" active-item-style="style0" pcoded-navbar-position="fixed">
@@ -64,13 +61,10 @@
                         <div class="pcoded-inner-content">
                             <div class="main-body">
                                 <div class="page-wrapper">
-
                                     <div class="page-body">
                                       <?php echo $content;?>
                                     </div>
-
                                     <div id="styleSelector">
-
                                     </div>
                                 </div>
                             </div>
@@ -80,10 +74,10 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/popper.js/popper.min.js"></script>
-    <script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/popper.js/popper.min.js"></script>
+<script type="text/javascript" src="<?php echo base_url()?>assets/js/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <!-- jquery slimscroll js -->
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/jquery-slimscroll/jquery.slimscroll.js"></script>
 <!-- modernizr js -->

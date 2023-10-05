@@ -59,7 +59,7 @@ class EducationVideosController extends MY_Controller {
             $data[]=array(
               $e->video_title,
               $e->video_description,
-              '<iframe width="210" height="105" src="'.$e->video_link.'"></iframe>',
+              '<img width="210" height="105" id="video_image" src="'.base_url().'upload/video_image/'.$e->thumbnail_image.'"></img>',
             );
           }
       }

@@ -127,7 +127,7 @@ class Custom_model extends CI_Model {
         $this->db->where('clinic_id',$this->admin_session->clinic_id);
         $this->db->where('clinic_user_id',$this->admin_session->id);
     }
-    $this->db->from('da_education_videos');
+    $this->db->from('da_videos');
 
     $result = $this->db->get()->result();
     return $result;

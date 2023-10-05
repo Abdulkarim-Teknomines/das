@@ -102,7 +102,7 @@ class AppointmentController extends MY_Controller {
       "data"=>$data
     );
     echo json_encode($results);
-  }
+  } 
   public function view_appointments_details($id){
     $data['blood_group'] = $this->blood_group;
     $categories = $this->Patient_model->get_categories();

@@ -1,3 +1,7 @@
+<?php 
+$CI =& get_instance();
+$CI->load->model('Patient_model');
+?>
 <style>
     .error{
         color:red;
@@ -12,29 +16,40 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Search Patient *</label>
-                    <div class="col-sm-9 col-xs-2">
+                    <div class="col-sm-10 col-xs-2">
                         <input type="text" class="form-control" placeholder="Enter Patient ID Or Phone Number" name="patient_id_or_number" id="patient_id_or_number" autocomplete="off">
                     </div>
-                    <div class="col-sm-1 col-xs-2">
+                    
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Patient ID *</label>
+                        <div class="col-sm-9 col-xs-2">
+                            <!-- <input type="text" class="form-control" placeholder="Patient ID" name="patient_ids" id="patient_ids" autocomplete="off"> -->
+                            <select class="form-control" name="patient_id" id="patient_id">
+                                <option value="">Please Select Patient ID</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 col-xs-2">
                         <input type="button" name="search" id="search" class="btn btn-primary text-center m-b-20 search" value="Search" autocomplete="off">
                     </div>
-                </div>
+                </div> 
+                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Doctor *</label>
-                    <div class="col-sm-10">
-                    <select class="form-control doctors" name="doctors" id="doctors" >
-                        <option value="">Select Doctor Name</option>
-                            <?php if(!empty($doctors)){
-                                foreach($doctors as $dr){ ?>
-                                    <option value="<?php echo $dr->id;?>"><?php echo $dr->full_name;?></option>
-                            <?php   }
-                            }
-                            ?>
-                        </select>
-                    </div>
+                        <div class="col-sm-10 col-xs-2">
+                            <!-- <input type="text" class="form-control" placeholder="Patient ID" name="patient_ids" id="patient_ids" autocomplete="off"> -->
+                            <select class="form-control" name="doctor_id" id="doctor_id">
+                                <option value="">Please Select Doctor</option>
+                                <?php if(!empty($doctors)){
+                                    foreach($doctors as $doc){ ?>
+                                         <option value="<?php echo $doc->id;?>"><?php echo $doc->full_name;?></option>
+                                <?php }
+                            } ?>
+                            </select>
+                        </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Appointment Date *</label>
+                    <label class="col-sm-2 col-form-label">Previous Appointment Date *</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Appointment Date" name="appointment_date" id="appointment_date" autocomplete="off">
                         </div>
@@ -46,7 +61,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Patient Details *</label>
                 </div>
-                <input type="hidden" name="patient_id" id="patient_id" class="patient_id" >
+                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">First Name *</label>
                     <div class="col-sm-10">
@@ -113,7 +128,6 @@
                         } ?>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
@@ -127,6 +141,35 @@
                         </div>
                 </div>
                 <div class="form-group row">
+                    <div class="col-sm-2 btn btn-primary text-center m-b-20"><span>Speciality *</span></div>
+                </div>
+                <?php if(!empty($categories)){
+                foreach($categories as $cat){ ?>
+                    <div class="form-group row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input categories[]" name="categories[]" id="categories_<?php echo $cat->id;?>" value="<?php echo $cat->id;?>" >
+                                <label class="form-label"><?php echo $cat->category_name;?></label>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <select class="form-control sub_categories" name="sub_categories[]" id="sub_categories_<?php echo $cat->id;?>" multiple="multiple" >
+                                <option value="">Select Sub Speciality</option>
+                                <?php $sub_cat = $CI->Patient_model->get_sub_categories($cat->id);
+                                if(!empty($sub_cat)){
+                                    foreach($sub_cat as $subcat){ ?>
+                                        <option value="<?php echo $subcat->id;?>"><?php echo $subcat->name;?></option>
+                                    <?php   }
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                <?php }} ?>
+                <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
                         <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Book on Appointment" autocomplete="off">
@@ -137,16 +180,41 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
 <script>
   $(document).ready(function(){
+    $(".sub_categories").select2({
+        placeholder: "Select Sub Speciality",
+        theme: "classic",
+    });
     $("#appointment_date").datepicker({ 
         format: 'dd-mm-yyyy',
         autoclose: true, 
         todayHighlight: true,
-
     });
     $('#appointment_time').datetimepicker({
         format: 'HH:mm',
+        icons: {
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+        }
+    });
+    $("#patient_id_or_number").focusout(function(){
+        var patient_id_number = $(this).val();
+        $.ajax({
+        type:'POST',
+        url:'<?php echo base_url('PatientController/select_patient_id_change'); ?>',
+        data:{patient_id_number:patient_id_number},
+        dataType: 'json',
+        success:function(data){
+                $('#patient_id').html('');
+                $('#patient_id').append( $('<option></option>').val("").html("Please Select Patient ID") )
+                $.each(data, function(val, text) {
+                    $('#patient_id').append( $('<option></option>').val(text.id).html(text.patient_id) )
+                });
+            }
+        });
     });
     $("#search").click(function(){
         $(".error").remove();
@@ -156,13 +224,14 @@
         }
     
         var patient_id_number = $("#patient_id_or_number").val();
+        var patient_id = $("#patient_id").val();
         $.ajax({
-            url: "<?php echo base_url('PatientController/search_patient_details');?>",
-            data: ({patient_id_number,patient_id_number}),
+            url: "<?php echo base_url('PatientController/search_patient_details1');?>",
+            data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
             success: function(data) {
-                if(data.length<=0){
+                if(data.patient_details.length<=0){
                     $("#patient_id_or_number").after('<div class="error">No Record Found</div>');
                     $("#first_name").val('');
                     $("#last_name").val('');
@@ -172,24 +241,36 @@
                     $("#birth_date").val('');
                     $("#address").val('');
                     $("#patient_problem").val('');
+                    $("#appointment_date").val('');
+                    $("#appointment_time").val('');
                     $('#blood_group option[value=""]').attr("selected", "selected");
+                    $("#doctor_id").val('');
                     $("input:radio").prop('checked',false);
-                    $("#patient_id").val('');
                     return false;
                 }else{
-                $(data).each(function(key,val){
-                    $("#first_name").val(val.first_name);
-                    $("#last_name").val(val.last_name);
-                    $("#email_id").val(val.email_id);
-                    $("#mobile_number").val(val.mobile_no);
-                    $("#whatsapp_number").val(val.whatssapp_no);
-                    $("#birth_date").val(val.birth_date);
-                    $("#address").val(val.address);
-                    $("#patient_problem").val(val.patient_problem);
-                    $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
-                    $("input:radio[value='"+val.gender+"']").prop('checked',true);
-                    $("#patient_id").val(val.id);
-                });
+                    $(data.patient_details).each(function(key,val){
+                        $("#first_name").val(val.first_name);
+                        $("#last_name").val(val.last_name);
+                        $("#email_id").val(val.email_id);
+                        $("#mobile_number").val(val.mobile_no);
+                        $("#whatsapp_number").val(val.whatssapp_no);
+                        $("#birth_date").val(val.birth_date);
+                        $("#address").val(val.address);
+                        $("#patient_problem").val(val.patient_problem);
+                        $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
+                        $("input:radio[value='"+val.gender+"']").prop('checked',true);
+                        $("#appointment_date").val(val.appointment_date);
+                        $("#appointment_time").val(val.appointment_time);
+                        $("#doctor_id").val(val.doctor_id);
+                    });
+                    $.each(data.categories, function (i) {
+                        var result = data.categories[i].sub_category_id.split(',');
+                        $('#categories_'+data.categories[i].category_id).prop('checked', true);  
+                        $.each(result, function (j) {
+                            $("#sub_categories_"+data.categories[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
+                            $("#sub_categories_"+data.categories[i].category_id).select2({theme:"classic"}).trigger('change');
+                        });
+                    });
                 }
             }             
         });
@@ -207,8 +288,8 @@ $(document).on('submit',function(e){
     if($("#patient_id").val()==""){
         $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
         return false;
-    }else if($("#doctors").val()==""){
-        $("#doctors").after('<div class="error">Please Select Doctor</div>');
+    }else if($("#doctor_id").val()==""){
+        $("#doctor_id").after('<div class="error">Please Select Doctor</div>');
         return false;
     }else if($("#appointment_date").val()==""){
         $("#appointment_date").after('<div class="error">Please Select Date</div>');
@@ -217,13 +298,25 @@ $(document).on('submit',function(e){
         $("#appointment_time").after('<div class="error">Please Select Time</div>');
         return false;
     }
+    var val = [];
+        var t = [];
+        var selected = [];
+    $(':checkbox:checked').each(function(s){
+          val[s] = $(this).val();
+    });
+    $.each(val, function( index, value ) {
+        selected[value]=[];
+        $('#sub_categories_'+value+' :selected').each(function(i, sel){ 
+            selected[value].push($(sel).val());
+        });
+    });
     var patient_id = $("#patient_id").val();
-    var doctor_id = $("#doctors").val();
     var appointment_date = $("#appointment_date").val();
     var appointment_time = $("#appointment_time").val();
+    var doctor_id = $("#doctor_id").val();
     $.ajax({
         url: "<?php echo base_url('PatientController/appointment_book');?>",
-        data: ({patient_id:patient_id,appointment_date:appointment_date,appointment_time:appointment_time,doctor_id:doctor_id}),
+        data: ({selected:selected,patient_id:patient_id,appointment_date:appointment_date,appointment_time:appointment_time,doctor_id:doctor_id}),
         dataType: 'json', 
         type: 'post',
         success: function(data) {

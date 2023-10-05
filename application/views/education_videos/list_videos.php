@@ -38,9 +38,9 @@ var table =  $('#list_videos').DataTable({
   serverSide:false,
   pageLength:10,   
   bDestroy: true,
-  info:false,
+  info:false, 
   bLengthChange: false,
-  searching: false,
+  searching: true,
   ajax:{
     "url":'<?php echo base_url('EducationVideosController/list_videos_details'); ?>',
     "type": "POST",

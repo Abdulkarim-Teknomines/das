@@ -19,7 +19,19 @@ $CI->load->model('Patient_model');
                     <div class="col-sm-9 col-xs-2">
                         <input type="text" class="form-control" placeholder="Enter Patient ID Or Phone Number" name="patient_id_or_number" id="patient_id_or_number" autocomplete="off">
                     </div>
-                    <div class="col-sm-1 col-xs-2">
+                    <!-- <div class="col-sm-1 col-xs-2">
+                        <input type="button" name="search" id="search" class="btn btn-primary text-center m-b-20 search" value="Search" autocomplete="off">
+                    </div> -->
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Patient ID *</label>
+                        <div class="col-sm-9 col-xs-2">
+                            <!-- <input type="text" class="form-control" placeholder="Patient ID" name="patient_ids" id="patient_ids" autocomplete="off"> -->
+                            <select class="form-control" name="patient_id" id="patient_id">
+                                <option value="">Please Select Patient ID</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-1 col-xs-2">
                         <input type="button" name="search" id="search" class="btn btn-primary text-center m-b-20 search" value="Search" autocomplete="off">
                     </div>
                 </div>
@@ -37,7 +49,7 @@ $CI->load->model('Patient_model');
                         </select>
                     </div>
                 </div> -->
-                <input type="hidden" id="patient_id" class="patient_id">
+                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Patient Name *</label>
                     <div class="col-sm-10">
@@ -108,12 +120,12 @@ $CI->load->model('Patient_model');
                                                 $bottom_left = explode(',',$cat->bottom_left);
                                                 $bottom_right = explode(',',$cat->bottom_right);
                                                 foreach($top_left as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-top_left-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-top_left-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-2">
                                                 <?php foreach($top_right as $cat){ ?>
-                                                        <label id="<?php echo $mh->category_name;?>-top_right-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                        <label id="<?php echo $mh->id;?>-top_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -127,12 +139,12 @@ $CI->load->model('Patient_model');
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-2">
                                                 <?php foreach($bottom_left as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-bottom_left-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-bottom_left-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-2">
                                                 <?php foreach($bottom_right as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-bottom_right-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-bottom_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -143,7 +155,7 @@ $CI->load->model('Patient_model');
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20" value="Submit" autocomplete="off">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" id="submit" value="Submit" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -156,6 +168,22 @@ $CI->load->model('Patient_model');
 
 <script>
   $(document).ready(function(){
+    $("#patient_id_or_number").focusout(function(){
+        var patient_id_number = $(this).val();
+        $.ajax({
+        type:'POST',
+        url:'<?php echo base_url('PatientController/select_patient_id_change'); ?>',
+        data:{patient_id_number:patient_id_number},
+        dataType: 'json',
+        success:function(data){
+                $('#patient_id').html('');
+                $('#patient_id').append( $('<option></option>').val("").html("Please Select Patient ID") )
+                $.each(data, function(val, text) {
+                    $('#patient_id').append( $('<option></option>').val(text.id).html(text.patient_id) )
+                });
+            }
+        });
+    });
     $(".class_categories").click(function(){
         var css = $(this).css('font-weight');
         if(css==400){
@@ -176,47 +204,86 @@ $CI->load->model('Patient_model');
     });
     $('#appointment_time').datetimepicker({
         format: 'HH:mm',
+        icons: {
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+        }
     });
     $("#search").click(function(){
+        $(".categories").prop('checked',false);
+        $(".sub_categories").val('null').trigger("change");
+        // $(".").select2("val", "");
+        $(".treatment_charges").prop('checked',false);
         $(".error").remove();
         if($("#patient_id_or_number").val()==""){
             $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
             return false;
         }
         var patient_id_number = $("#patient_id_or_number").val();
+        var patient_id = $("#patient_id").val();
         $.ajax({
             url: "<?php echo base_url('ClinicalExaminationController/search_patient_details');?>",
-            data: ({patient_id_number,patient_id_number}),
+            data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
             success: function(data) {
-                if(data.length<=0){
+                if(data.patient_details.length<=0){
                     $("#patient_id_or_number").after('<div class="error">No Record Found</div>');
-                    $("#patient_id").val('');
                     return false;
                 }else{
-                    $(data).each(function(key,val){
-                        $("#patient_id").val(val.patient_master_id);
+                    $(data.patient_details).each(function(key,val){
                         $("#patient_name").val(val.first_name+' '+val.last_name);
                         $("#appointment_date").val(val.appointment_date);
                         $("#appointment_time").val(val.appointment_time);
-                        $.ajax({
-                            url: "<?php echo base_url('ClinicalExaminationController/patient_categories');?>",
-                            data: ({patient_id:val.id}),
-                            dataType: 'json', 
-                            type: 'post',
-                            success: function(data) {
-                                $.each(data, function (i) {
-                                    var result = data[i].sub_category_id.split(',');
-                                        $('#categories_'+data[i].category_id).prop('checked', true);  
-                                        $.each(result, function (j) {
-                                            $("#sub_categories_"+data[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
-                                            $("#sub_categories_"+data[i].category_id).select2({theme:"classic"}).trigger('change');
-                                        });
-                                });
-                            }
-                        });
+                        // $.ajax({
+                        //     url: "<?php echo base_url('ClinicalExaminationController/patient_categories');?>",
+                        //     data: ({patient_id:val.id}),
+                        //     dataType: 'json', 
+                        //     type: 'post',
+                        //     success: function(data) {
+                        //         $.each(data, function (i) {
+                        //             var result = data[i].sub_category_id.split(',');
+                        //                 $('#categories_'+data[i].category_id).prop('checked', true);  
+                        //                 $.each(result, function (j) {
+                        //                     $("#sub_categories_"+data[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
+                        //                     $("#sub_categories_"+data[i].category_id).select2({theme:"classic"}).trigger('change');
+                        //                 });
+                        //         });
+                        //     }
+                        // });
                     });
+                    
+                    
+                    if(data.categories.length>0){
+                        $.each(data.categories, function (i) {
+                            var result = data.categories[i].sub_category_id.split(',');
+                            $('#categories_'+data.categories[i].category_id).prop('checked', true);
+                            $.each(result, function (j) {
+                                $("#sub_categories_"+data.categories[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
+                                $("#sub_categories_"+data.categories[i].category_id).select2({theme:"classic"}).trigger('change');
+                            });
+                        });
+                    }
+                    if(data.treatment_plan!=null){
+                        
+                        var res = data.treatment_plan.treatment_plan.split(',');
+                        
+                        $.each(res,function(key,val){
+                            $(".treatment_plan").each(function(){
+                                var text = $(this).val();
+                                if(text==val){
+                                    $(this).prop('checked', true);
+                                }
+                                $(".class_categories").each(function(){
+                                    var id = $(this).attr('id');
+                                    if(id==val){
+                                        $(this).css("font-weight","bold");
+                                    }
+                                });
+                            });
+                        });
+                    }
+                    
                 }
             }             
         });
@@ -228,59 +295,50 @@ $CI->load->model('Patient_model');
         todayHighlight: true,
     });
 });
-// $(document).on('submit',function(e){
-    
-//     $(".error").remove();
-//     e.preventDefault();
-//     if($("#patient_id").val()==""){
-//         $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
-//         return false;
-//     }
-//     var patient_id = $("#patient_id").val();
-//     var first_name = $("#first_name").val();
-//     var last_name = $("#last_name").val();
-//     var email_id = $("#email_id").val();
-//     var mobile_number = $("#mobile_number").val();
-//     var whatsapp_number = $("#whatsapp_number").val();
-//     var blood_group = $("#blood_group").val();
-//     var birth_date = $("#birth_date").val();
-//     var sex = $(".sex").val();
-//     var address = $("#address").val();
-//     var patient_problem = $("#patient_problem").val();
-//     $.ajax({
-//         url: "<?php echo base_url('PatientController/update_patient');?>",
-//         data: ({patient_id:patient_id,first_name:first_name,last_name:last_name,email_id:email_id,mobile_number:mobile_number,whatsapp_number:whatsapp_number,blood_group:blood_group,birth_date:birth_date,sex:sex,address:address,patient_problem:patient_problem}),
-//         dataType: 'json', 
-//         type: 'post',
-//         success: function(data) {
-//             if(data.status=='success'){
-//                         Swal.fire({
-//                             title: data.message,
-                            
-//                             allowOutsideClick: false
-//                         }).then((result) => {
-//                             if (result.isConfirmed) {
-//                                 $("#patient_id").val('');
-//                                 $("#first_name").val('');
-//                                 $("#last_name").val('');
-//                                 $("#email_id").val('');
-//                                 $("#mobile_number").val('');
-//                                 $("#whatsapp_number").val('');
-//                                 $("#birth_date").val('');
-//                                 $("#address").val('');
-//                                 $("#patient_problem").val('');
-//                                 $('#blood_group option[value=""]').attr("selected", "selected");
-//                                 $("input:radio").prop('checked',false);
-//                                 $("#patient_id").val('');
-//                             }
-//                         })
-//                     }else{
-//                         $.each(data.message,function(key,value){
-//                             var element = $("#"+key);
-//                             element.after(value); 
-//                         });
-//                     }
-//         }             
-//     });
-// });
+
+$("#submit").click(function(e){
+        $(".error").remove();
+        var treatment_plan = [];
+        e.preventDefault();
+        
+        if($("#patient_id").val()==""){
+            $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
+            return false;
+        }
+        
+        var patient_id = $("#patient_id").val();
+        
+        $(".treatment_plan:checked").each(function(){
+            var text = $(this).val();
+            treatment_plan.push(text);
+            $(".class_categories").each(function(){
+                var css = $(this).css('font-weight');
+                if(text==$(this).attr('data-id')){
+                    if(css=='700'){
+                        treatment_plan.push($(this).attr('id'));
+                    }
+                }
+            });
+        });
+        $.ajax({
+            url: "<?php echo base_url('ClinicalExaminationController/store_treatment_plan_details');?>",
+            data: ({patient_id:patient_id,treatment_plan:treatment_plan}),
+            dataType: 'json', 
+            type: 'post',
+            success: function(data) {
+                if(data.status=='success'){
+                Swal.fire({
+                    title: data.message,
+                    // icon:'success',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.reload();
+                    }
+                })
+            }
+            }             
+        });
+           
+    });
 </script>

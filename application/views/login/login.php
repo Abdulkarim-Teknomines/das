@@ -76,6 +76,12 @@
                         </form>
                         <!-- end of form -->
                     </div>
+                    <div class="row m-t-50">
+                        <div class="col-md-12 text-center">
+                            
+                            <span class='text-center'>© 2023 All Rights Reserved to Dental Assist. Developed by <a href="https://www.creativedesigns.in">Creative Designs</a></span>
+                        </div>
+                    </div>
                     <!-- Authentication card end -->
                 </div>
                 <!-- end of col-sm-12 -->

@@ -12,9 +12,7 @@ class ClinicalExaminationController extends MY_Controller {
     $this->gender = gender();  
     $this->month = month();
     $this->year = year();
-    if (!$this->session->userdata('admin_session')) {
-      redirect(base_url());
-    }    
+       
     $this->admin_session = $this->session->userdata('admin_session');
   }
   public function index() {
@@ -108,21 +106,57 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function search_patient_details(){
     $patient_id_number = $this->input->post('patient_id_number');
-    $this->db->select('da_appointments.id as appointment_id,da_patients.id as patient_master_id,da_patients.*,da_appointments.appointment_date,da_appointments.appointment_time');
-    $this->db->from('da_appointments');
-    $this->db->where('da_patients.patient_id',$patient_id_number);
-    $this->db->or_where('da_patients.mobile_no',$patient_id_number);
-    if($this->admin_session->role_id!="1"){
-        $this->db->where('da_appointments.clinic_id',$this->admin_session->clinic_id);
-        $this->db->where('da_appointments.clinic_user_id',$this->admin_session->id);
-    }
-    $this->db->join('da_patients','da_patients.id=da_appointments.patient_id','left');
-    $result = $this->db->get()->row_array();
-    if(!empty($result)){
-        echo json_encode($result);
-    }else{
-        echo json_encode(array());
-    }
+        $patient_id = $this->input->post('patient_id');
+        $this->db->select('*');
+        $this->db->from('da_patients');
+        $this->db->where('da_patients.patient_id',$patient_id_number);
+        if($this->admin_session->role_id!="1"){
+            $this->db->where('da_patients.clinic_id',$this->admin_session->clinic_id);
+            $this->db->where('da_patients.clinic_user_id',$this->admin_session->id);
+        }
+        $this->db->or_where('da_patients.mobile_no',$patient_id_number);
+        $this->db->where('da_patients.id',$patient_id);
+        $this->db->join('da_appointments','da_patients.id=da_appointments.patient_id','left');
+        $result = $this->db->get()->row_array();
+        
+        $this->db->select('*');
+        $this->db->from('da_patient_categories');
+        $this->db->where('da_patient_categories.patient_id',$patient_id);
+        $results = $this->db->get()->result_array();
+
+        $this->db->select('*');
+        $this->db->from('da_patient_medical_history');
+        $this->db->where('da_patient_medical_history.patient_id',$patient_id);
+        $medical_history = $this->db->get()->row_array();
+
+        $this->db->select('*');
+        $this->db->from('da_patient_dental_history');
+        $this->db->where('da_patient_dental_history.patient_id',$patient_id);
+        $dental_history = $this->db->get()->row_array();
+
+        $this->db->select('*');
+        $this->db->from('da_patient_treatment_charges');
+        $this->db->where('da_patient_treatment_charges.patient_id',$patient_id);
+        $treatment_charges = $this->db->get()->row_array();
+
+        $this->db->select('*');
+        $this->db->from('da_patient_treatment_plan');
+        $this->db->where('da_patient_treatment_plan.patient_id',$patient_id);
+        $treatment_plan = $this->db->get()->row_array();
+        $data = array(
+          'patient_details'=>$result,
+          'categories'=>$results,
+          'medical_history'=>$medical_history,
+          'dental_history'=>$dental_history,
+          'treatment_charges'=>$treatment_charges,
+          'treatment_plan'=>$treatment_plan
+        );
+        
+        if(!empty($result)){
+            echo json_encode($data);
+        }else{
+            echo json_encode(array());
+        }
   }
   public function patient_categories(){
     $patient_id = $this->input->post('patient_id');
@@ -137,5 +171,87 @@ class ClinicalExaminationController extends MY_Controller {
         echo json_encode(array());
     }
   }
+  public function store_medical_history_details(){
+    $med_id = '';
+            $this->db->where('patient_id', $this->input->post('patient_id'));
+            $this->db->delete('da_patient_medical_history');
+
+    if(!empty($this->input->post('medical_history_id'))){
+      $med_id = implode(',',$this->input->post('medical_history_id'));
+    }
+
+    $data = array(
+      'patient_id'=>$this->input->post('patient_id'),
+      'medical_history_id'=>$med_id,
+      'clinic_user_id'=>$this->admin_session->id,
+      'clinic_id'=>$this->admin_session->clinic_id
+    );
+    $ins_data = $this->Patient_model->insert_data($data,'da_patient_medical_history');
+    if($ins_data!=false){
+      $data=array('status'=>'success','message'=>'Medical History Added Successfully');
+      echo json_encode($data);
+    }
+  }
+  public function store_dental_history_details(){
+    $den_id = '';
+            $this->db->where('patient_id', $this->input->post('patient_id'));
+            $this->db->delete('da_patient_dental_history');
+
+    if(!empty($this->input->post('dental_history_id'))){
+      $den_id = implode(',',$this->input->post('dental_history_id'));
+    }
+    $data = array(
+      'patient_id'=>$this->input->post('patient_id'),
+      'dental_history_id'=>$den_id,
+      'clinic_user_id'=>$this->admin_session->id,
+      'clinic_id'=>$this->admin_session->clinic_id
+    );
+    $ins_data = $this->Patient_model->insert_data($data,'da_patient_dental_history');
+    if($ins_data!=false){
+      $data=array('status'=>'success','message'=>'Dental History Added Successfully');
+      echo json_encode($data);
+    }
+  }
+  public function store_treatment_charges_details(){
+    $trt_char_id = '';
+            $this->db->where('patient_id', $this->input->post('patient_id'));
+            $this->db->delete('da_patient_treatment_charges');
+
+    if(!empty($this->input->post('treatment_charges_id'))){
+      $trt_char_id = implode(',',$this->input->post('treatment_charges_id'));
+    }
     
+    $data = array(
+      'patient_id'=>$this->input->post('patient_id'),
+      'treatment_charges_id'=>$trt_char_id,
+      'clinic_user_id'=>$this->admin_session->id,
+      'clinic_id'=>$this->admin_session->clinic_id
+    );
+    $ins_data = $this->Patient_model->insert_data($data,'da_patient_treatment_charges');
+    if($ins_data!=false){
+      $data=array('status'=>'success','message'=>'Treatment Charges Added Successfully');
+      echo json_encode($data);
+    }
+  }
+  public function store_treatment_plan_details(){
+    $trt_plan_id = '';
+            $this->db->where('patient_id', $this->input->post('patient_id'));
+            $this->db->delete('da_patient_treatment_plan');
+
+    if(!empty($this->input->post('treatment_plan'))){
+      $trt_plan_id = implode(',',$this->input->post('treatment_plan'));
+    }
+    
+    $data = array(
+      'patient_id'=>$this->input->post('patient_id'),
+      'treatment_plan'=>$trt_plan_id,
+      'clinic_user_id'=>$this->admin_session->id,
+      'clinic_id'=>$this->admin_session->clinic_id
+    );
+    $ins_data = $this->Patient_model->insert_data($data,'da_patient_treatment_plan');
+    if($ins_data!=false){
+      $data=array('status'=>'success','message'=>'Treatment Plan Added Successfully');
+      echo json_encode($data);
+    }
+  }
 }

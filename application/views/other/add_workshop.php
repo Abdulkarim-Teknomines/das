@@ -71,7 +71,11 @@
             });
         });
         $('#time').datetimepicker({
-            format: 'HH:mm'
+            format: 'HH:mm',
+            icons: {
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+        }
         });
 
     </script>

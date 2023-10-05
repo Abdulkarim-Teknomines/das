@@ -224,15 +224,31 @@ class SetupController extends MY_Controller {
          $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
          $this->form_validation->set_rules('video_description','Video Description','required');
          $this->form_validation->set_rules('video_link','Video Link','required');
-         
+         $this->form_validation->set_rules('video_title','Video Title','required');
          if($this->form_validation->run()==TRUE){
              $video_description = $this->input->post('video_description');
              $video_link = $this->input->post('video_link'); 
+             $video_title = $this->input->post('video_title');
+             $video_image ='';
+             if (!empty($_FILES['video_image']) && $_FILES["video_image"]['name'] != "") {
+                $uploaddir = 'upload/video_image/';
+                
+                $new_file_name = str_replace(" ", "_", rand(1111,9999)."_".time() . $_FILES['video_image']['name']);
+                $uploadfile = $uploaddir . $new_file_name;
+
+                if (move_uploaded_file($_FILES['video_image']['tmp_name'], $uploadfile)) {
+                  $video_image = $new_file_name;
+                
+                }
+            }
+            
              $data = array(
+                'video_title'=>$video_title,
                  'video_description'=>$video_description,
                  'video_link'=>$video_link,
                  'clinic_user_id'=>$this->admin_session->id,
-                 'clinic_id'=>$this->admin_session->clinic_id
+                 'clinic_id'=>$this->admin_session->clinic_id,
+                 'thumbnail_image'=>$video_image
              );
             $result = $this->Custom_model->insert_data($data,'da_videos');
              if($result!=false){

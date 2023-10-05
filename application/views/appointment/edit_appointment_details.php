@@ -189,6 +189,10 @@ $CI->load->model('Patient_model');
     });
     $('#appointment_time').datetimepicker({
         format: 'HH:mm',
+        icons: {
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down",
+        }
     });
     $("#search").click(function(){
         $(".error").remove();
