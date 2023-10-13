@@ -60,6 +60,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off">
+                        </div>
+                </div>
+                <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Sex *</label>
                     <div class="col-sm-10">
                         <?php if(!empty($this->gender)){
@@ -84,7 +90,7 @@
                         </div> -->
                     </div>
                 </div>
-
+                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">

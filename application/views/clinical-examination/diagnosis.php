@@ -107,7 +107,7 @@ $CI->load->model('Patient_model');
                             <div class="col-sm-10">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input diagnosis_category_category" name="clinical_examinator_category" id="clinical_examinator_category" value="<?php echo $mh->id;?>" >
+                                    <input type="checkbox" class="form-check-input diagnosis_category" name="diagnosis_category" id="<?php echo $mh->id;?>" value="<?php echo $mh->id;?>" >
                                     <label class="form-label"><?php echo $mh->category_name;?></label>
                                     </label>
                                 </div>
@@ -119,7 +119,7 @@ $CI->load->model('Patient_model');
                                         <div class="col-sm-11">
                                             <div class="form-check-inline">
                                                 <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->category_name.'-'.$scs->category_name; ?>" value="<?php echo $scs->id;?>" >
+                                                <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->id.'-'.$scs->id; ?>" data-id="<?php echo $mh->id.'-'.$scs->id;?>" value="<?php echo $scs->id;?>" >
                                                 <label class="form-label"><?php echo $scs->category_name;?></label>
                                             </div>
                                             <?php $deep_caries_class_cat = $CI->Patient_model->get_diagnosis_sub_categories_class($scs->id); ?>
@@ -133,12 +133,12 @@ $CI->load->model('Patient_model');
                                                     <div class="col-sm-1"></div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($top_left as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-'.$scs->category_name.'-top_left-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$scs->id.'-top_left-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$scs->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($top_right as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-'.$scs->category_name.'-top_right-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$scs->id.'-top_right-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$scs->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -152,12 +152,12 @@ $CI->load->model('Patient_model');
                                                     <div class="col-sm-1"></div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($bottom_left as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-'.$scs->category_name.'-bottom_left-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$scs->id.'-bottom_left-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$scs->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($bottom_right as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-'.$scs->category_name.'-bottom_right-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$scs->id.'-bottom_right-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$scs->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -182,12 +182,12 @@ $CI->load->model('Patient_model');
                                                     <div class="col-sm-1"></div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($top_left as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-top_left-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$sbc->id.'-top_left-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$sbc->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($top_right as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-top_right-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$sbc->id.'-top_right-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$sbc->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -201,12 +201,12 @@ $CI->load->model('Patient_model');
                                                     <div class="col-sm-1"></div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($bottom_left as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-bottom_left-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$sbc->id.'-bottom_left-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$sbc->id;?>"><?php echo $tl;?></label>
                                                         <?php } ?>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <?php foreach($bottom_right as $tl){ ?>
-                                                            <label id="<?php echo $mh->category_name.'-bottom_right-'.$tl;?>" class="deep_caries_class_cat"><?php echo $tl;?></label>
+                                                            <label id="<?php echo $mh->id.'-'.$sbc->id.'-bottom_right-'.$tl;?>" class="sub_class_categories" data-id="<?php echo $mh->id.'-'.$sbc->id;?>"><?php echo $tl;?></label>
                                                             
                                                         <?php } ?>
                                                     </div>
@@ -222,7 +222,7 @@ $CI->load->model('Patient_model');
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" value="Submit" autocomplete="off">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" id="submit" value="Submit" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -251,7 +251,7 @@ $CI->load->model('Patient_model');
             }
         });
     });
-    $(".class_categories").click(function(){
+    $(".sub_class_categories").click(function(){
         var css = $(this).css('font-weight');
         if(css==400){
             $(this).css("font-weight","bold");
@@ -290,7 +290,7 @@ $CI->load->model('Patient_model');
         var patient_id_number = $("#patient_id_or_number").val();
         var patient_id = $("#patient_id").val();
         $.ajax({
-            url: "<?php echo base_url('ClinicalExaminationController/search_patient_details');?>",
+            url: "<?php echo base_url('PatientController/search_patient_details');?>",
             data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
@@ -331,12 +331,40 @@ $CI->load->model('Patient_model');
                             });
                         });
                     }
-                    // if(data.treatment_charges!=null){
-                    //     var res = data.treatment_charges.treatment_charges_id.split(',');
-                    //     $.each(res,function(key,val){
-                    //         $("#treatment_charges_"+val).prop('checked',true);
-                    //     });
-                    // }
+                    if(data.patient_diagnosis!=null){ 
+                        var res = data.patient_diagnosis.diagnosis.split(',');
+                        $.each(res,function(key,val){
+                            
+                            $(".diagnosis_category").each(function(){
+                                var text = $(this).attr('id');
+                                
+                                if(text==val){
+                                    $(this).prop('checked', true);
+                                }
+                                $(".class_categories").each(function(){
+                                    var text = $(this).attr('id');
+                                    if(text==val){
+                                        $(this).prop('checked', true);
+                                    }
+                                    $(".sub_class_categories").each(function(){
+                                        var id = $(this).attr('id');
+                                        if(id==val){
+                                            $(this).css("font-weight","bold");
+                                        }
+                                    });
+                                });
+                            });
+                            $(".sub_class_categories").each(function(){
+                                var id = $(this).attr('id');
+                                if(id==val){
+                                    $(this).css("font-weight","bold");
+                                }
+                                // if(id==val){
+                                //     $(this).prop('checked', true);
+                                // }
+                            });
+                        });
+                    }
                     
                 }
             }             
@@ -350,8 +378,63 @@ $CI->load->model('Patient_model');
     });
 });
 $("#submit").click(function(e){
+    $(".error").remove();
+    var diagnosis = [];
     e.preventDefault();
     
-})
+    if($("#patient_id").val()==""){
+        $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
+        return false;
+    }
+    
+    var patient_id = $("#patient_id").val();
+    $(".diagnosis_category:checked").each(function(){
+        var text = $(this).val();
+        diagnosis.push(text);
+        $(".sub_class_categories").each(function(){
+            var css = $(this).css('font-weight');
+            if(text==3){
+                text='3-1';
+            }
+            if(text==$(this).attr('data-id')){
+                if(css=='700'){
+                    diagnosis.push($(this).attr('id'));
+                }
+            }
+        });
+    });
+    $(".class_categories:checked").each(function(){
+        var id = $(this).attr('id');
+        diagnosis.push(id);
+        $(".sub_class_categories").each(function(){
+            var css = $(this).css('font-weight');
+            if(id==$(this).attr('data-id')){
+                if(css=='700'){
+                    diagnosis.push($(this).attr('id'));
+                }
+            }
+        });
+    });
+    
+    $.ajax({
+        url: "<?php echo base_url('ClinicalExaminationController/store_diagnosis_details');?>",
+        data: ({patient_id:patient_id,diagnosis:diagnosis}),
+        dataType: 'json', 
+        type: 'post',
+        success: function(data) {
+            if(data.status=='success'){
+            Swal.fire({
+                title: data.message,
+                // icon:'success',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            })
+        }
+        }             
+    });
+});
 
 </script>

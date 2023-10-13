@@ -9,8 +9,58 @@ class AdminController extends MY_Controller {
   }
 
     public function dashboard() {
-        $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/dashboard-side-menu', 'content' => 'admin/dashboard');
-        $this->template->load('template/gradient-able-template/admin-template',$template_part);
+      $today_date = date("Y-m-d");
+      $patient = $this->db->get('da_patients')->num_rows();
+      $this->db->where('role_id',3);
+      $doctor = $this->db->get('da_clinic_user')->num_rows();
+      $staff_member = $this->db->get('da_clinic_user')->num_rows();
+      
+      $this->db->where('appointment_date',$today_date);
+      $appointments = $this->db->get('da_appointments')->num_rows();
+      $data['appointments'] = $appointments;
+      $data['staff_member'] = $staff_member;
+      $data['doctor'] = $doctor;
+      $data['patient'] = $patient;
+      $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/dashboard-side-menu', 'content' => 'admin/dashboard');
+      $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
+    }
+    public function search_dashboard(){
+      $start_date = '';
+      $end_date = '';
+      if($this->input->post('start_date')==""){
+        $start_date = date('Y-m-01');
+      }else{
+        $start_date = $this->input->post('start_date');
+      }
+      if($this->input->post('end_date')==""){
+        $end_date = date('Y-m-t');
+      }else{
+        $end_date = $this->input->post('end_date');
+      }
+      
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") >= ',$start_date);
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") <= ',$end_date);
+      $patient = $this->db->get('da_patients')->num_rows();
+      
+      $this->db->where('STR_TO_DATE(appointment_date, "%Y-%m-%d") >= ',$start_date);
+      $this->db->where('STR_TO_DATE(appointment_date, "%Y-%m-%d") <= ',$end_date);
+      $appointments = $this->db->get('da_appointments')->num_rows();
+
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") >= ',$start_date);
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") <= ',$end_date);
+      $staff_member = $this->db->get('da_clinic_user')->num_rows();
+
+      $this->db->where('role_id',3);
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") >= ',$start_date);
+      $this->db->where('STR_TO_DATE(created_at, "%Y-%m-%d") <= ',$end_date);
+      $doctor = $this->db->get('da_clinic_user')->num_rows();
+      $data = array(
+        'patient' =>$patient,
+        'appointment' => $appointments,
+        'staff_member' =>$staff_member,
+        'doctor'=>$doctor,
+      );
+      echo json_encode($data);
     }
     public function profile(){
       if($this->input->post('submit')){

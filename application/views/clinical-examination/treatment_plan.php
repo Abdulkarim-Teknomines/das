@@ -222,7 +222,7 @@ $CI->load->model('Patient_model');
         var patient_id_number = $("#patient_id_or_number").val();
         var patient_id = $("#patient_id").val();
         $.ajax({
-            url: "<?php echo base_url('ClinicalExaminationController/search_patient_details');?>",
+            url: "<?php echo base_url('PatientController/search_patient_details');?>",
             data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',

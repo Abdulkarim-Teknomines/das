@@ -107,7 +107,7 @@ $CI->load->model('Patient_model');
                             <div class="col-sm-10">
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                    <input type="checkbox" class="form-check-input clinical_examinator_category" name="clinical_examinator_category" id="clinical_examinator_category" value="<?php echo $mh->id;?>" >
+                                    <input type="checkbox" class="form-check-input investigation_category" name="investigation_category" id="<?php echo $mh->id;?>" value="<?php echo $mh->id;?>" >
                                     <label class="form-label"><?php echo $mh->category_name;?></label>
                                     </label>
                                 </div>
@@ -123,12 +123,12 @@ $CI->load->model('Patient_model');
                                                 $bottom_left = explode(',',$cat->bottom_left);
                                                 $bottom_right = explode(',',$cat->bottom_right);
                                                 foreach($top_left as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-top_left-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-top_left-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-2">
                                                 <?php foreach($top_right as $cat){ ?>
-                                                        <label id="<?php echo $mh->category_name;?>-top_right-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                        <label id="<?php echo $mh->id;?>-top_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -142,12 +142,12 @@ $CI->load->model('Patient_model');
                                             <div class="col-sm-1"></div>
                                             <div class="col-sm-2">
                                                 <?php foreach($bottom_left as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-bottom_left-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-bottom_left-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                             <div class="col-sm-2">
                                                 <?php foreach($bottom_right as $cat){ ?>
-                                                    <label id="<?php echo $mh->category_name;?>-bottom_right-<?php echo $cat;?>" class="class_categories"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-bottom_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@ $CI->load->model('Patient_model');
                                             <div class="col-sm-11">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                    <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->category_name.'-'.$dccc->category_name?>" value="<?php echo $dccc->id;?>" >
+                                                    <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->id.'-'.$dccc->id?>" value="<?php echo $dccc->id;?>" >
                                                     <label class="form-label"><?php echo $dccc->category_name;?></label>
                                                 </div>
     
@@ -173,7 +173,7 @@ $CI->load->model('Patient_model');
                                                         <div class="col-sm-2">
                                                             <div class="form-check-inline">
                                                                 <label class="form-check-label">
-                                                                <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->category_name.'-'.$dccc->category_name.'-'.$ibesc->category_name?>" value="<?php echo $dccc->id;?>" >
+                                                                <input type="checkbox" class="form-check-input class_categories" name="class_categories" id="<?php echo $mh->id.'-'.$dccc->id.'-'.$ibesc->id?>" value="<?php echo $dccc->id;?>" >
                                                                 <label class="form-label"><?php echo $ibesc->category_name;?></label>
                                                             </div>
                                                         </div>
@@ -181,7 +181,6 @@ $CI->load->model('Patient_model');
                                                 </div>
                                             </div>
                                         <?php } ?>
-                                        
                                     </div>
                                 </div>
                         <?php } } ?>
@@ -190,7 +189,7 @@ $CI->load->model('Patient_model');
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" value="Submit" autocomplete="off">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" id="submit" value="Submit" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -257,7 +256,7 @@ $CI->load->model('Patient_model');
         var patient_id_number = $("#patient_id_or_number").val();
         var patient_id = $("#patient_id").val();
         $.ajax({
-            url: "<?php echo base_url('ClinicalExaminationController/search_patient_details');?>",
+            url: "<?php echo base_url('PatientController/search_patient_details');?>",
             data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
@@ -298,12 +297,28 @@ $CI->load->model('Patient_model');
                             });
                         });
                     }
-                    // if(data.treatment_charges!=null){
-                    //     var res = data.treatment_charges.treatment_charges_id.split(',');
-                    //     $.each(res,function(key,val){
-                    //         $("#treatment_charges_"+val).prop('checked',true);
-                    //     });
-                    // }
+                    
+                    if(data.patient_investigation!=null){
+                        var res = data.patient_investigation.investigation.split(',');
+                        $.each(res,function(key,val){
+                            $(".investigation_category").each(function(){
+                                var text = $(this).attr('id');
+                                
+                                if(text==val){
+                                    $(this).prop('checked', true);
+                                }
+                                $(".class_categories").each(function(){
+                                    var id = $(this).attr('id');
+                                    if(id==val){
+                                        $(this).css("font-weight","bold");
+                                    }
+                                    if(id==val){
+                                        $(this).prop('checked', true);
+                                    }
+                                });
+                            });
+                        });
+                    }
                     
                 }
             }             
@@ -319,59 +334,53 @@ $CI->load->model('Patient_model');
 $(".label").click(function(){
     console.log($(this).text());
 });
-// $(document).on('submit',function(e){
+$("#submit").click(function(e){
+    $(".error").remove();
+    var investigation = [];
+    e.preventDefault();
     
-//     $(".error").remove();
-//     e.preventDefault();
-//     if($("#patient_id").val()==""){
-//         $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
-//         return false;
-//     }
-//     var patient_id = $("#patient_id").val();
-//     var first_name = $("#first_name").val();
-//     var last_name = $("#last_name").val();
-//     var email_id = $("#email_id").val();
-//     var mobile_number = $("#mobile_number").val();
-//     var whatsapp_number = $("#whatsapp_number").val();
-//     var blood_group = $("#blood_group").val();
-//     var birth_date = $("#birth_date").val();
-//     var sex = $(".sex").val();
-//     var address = $("#address").val();
-//     var patient_problem = $("#patient_problem").val();
-//     $.ajax({
-//         url: "<?php echo base_url('PatientController/update_patient');?>",
-//         data: ({patient_id:patient_id,first_name:first_name,last_name:last_name,email_id:email_id,mobile_number:mobile_number,whatsapp_number:whatsapp_number,blood_group:blood_group,birth_date:birth_date,sex:sex,address:address,patient_problem:patient_problem}),
-//         dataType: 'json', 
-//         type: 'post',
-//         success: function(data) {
-//             if(data.status=='success'){
-//                         Swal.fire({
-//                             title: data.message,
-                            
-//                             allowOutsideClick: false
-//                         }).then((result) => {
-//                             if (result.isConfirmed) {
-//                                 $("#patient_id").val('');
-//                                 $("#first_name").val('');
-//                                 $("#last_name").val('');
-//                                 $("#email_id").val('');
-//                                 $("#mobile_number").val('');
-//                                 $("#whatsapp_number").val('');
-//                                 $("#birth_date").val('');
-//                                 $("#address").val('');
-//                                 $("#patient_problem").val('');
-//                                 $('#blood_group option[value=""]').attr("selected", "selected");
-//                                 $("input:radio").prop('checked',false);
-//                                 $("#patient_id").val('');
-//                             }
-//                         })
-//                     }else{
-//                         $.each(data.message,function(key,value){
-//                             var element = $("#"+key);
-//                             element.after(value); 
-//                         });
-//                     }
-//         }             
-//     });
-// });
+    if($("#patient_id").val()==""){
+        $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
+        return false;
+    }
+    
+    var patient_id = $("#patient_id").val();
+    $(".investigation_category:checked").each(function(){
+        var text = $(this).val();
+        investigation.push(text);
+        $(".class_categories").each(function(){
+            var css = $(this).css('font-weight');
+            if(text==$(this).attr('data-id')){
+                if(css=='700'){
+                    investigation.push($(this).attr('id'));
+                }
+            }
+
+        });
+        $(".class_categories:checked").each(function(){
+            investigation.push($(this).attr('id'));
+        });
+    });
+    
+    
+    $.ajax({
+        url: "<?php echo base_url('ClinicalExaminationController/store_investigation_details');?>",
+        data: ({patient_id:patient_id,investigation:investigation}),
+        dataType: 'json', 
+        type: 'post',
+        success: function(data) {
+            if(data.status=='success'){
+            Swal.fire({
+                title: data.message,
+                // icon:'success',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            })
+        }
+        }             
+    });
+});
 </script>

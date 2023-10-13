@@ -128,7 +128,7 @@ $CI->load->model('Patient_model');
                                             </div>
                                             <div class="col-sm-2">
                                                 <?php foreach($top_right as $cat){ ?>
-                                                        <label id="<?php echo $mh->id;?>-top_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
+                                                    <label id="<?php echo $mh->id;?>-top_right-<?php echo $cat;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $cat;?></label>
                                                 <?php } ?>
                                             </div>
                                         </div>
@@ -196,12 +196,12 @@ $CI->load->model('Patient_model');
                                                         <div class="col-sm-4">
                                                             <?php foreach($bottom_left as $tl){?>
                                                                 <label id="<?php echo $mh->id.'-'.$dccc->id.'-bottom_left-'.$tl;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $tl;?></label>
-                                                            <?php }?>
+                                                            <?php } ?>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <?php foreach($bottom_right as $tl){?>
                                                                 <label id="<?php echo $mh->id.'-'.$dccc->id.'-bottom_right-'.$tl;?>" class="class_categories" data-id="<?php echo $mh->id;?>"><?php echo $tl;?></label>
-                                                            <?php }?>
+                                                            <?php } ?>
                                                         </div>
                                                     </div>
                                                 <?php } ?>
@@ -281,7 +281,7 @@ $CI->load->model('Patient_model');
         var patient_id_number = $("#patient_id_or_number").val();
         var patient_id = $("#patient_id").val();
         $.ajax({
-            url: "<?php echo base_url('ClinicalExaminationController/search_patient_details');?>",
+            url: "<?php echo base_url('PatientController/search_patient_details');?>",
             data: ({patient_id_number:patient_id_number,patient_id:patient_id}),
             dataType: 'json', 
             type: 'post',
@@ -322,6 +322,26 @@ $CI->load->model('Patient_model');
                             });
                         });
                     }
+                    if(data.clinical_examinator!=null){
+                        var res = data.clinical_examinator.clinical_examinator.split(',');
+                        $.each(res,function(key,val){
+                            $(".clinical_examinator_category").each(function(){
+                                var text = $(this).val();
+                                if(text==val){
+                                    $(this).prop('checked', true);
+                                }
+                                $(".class_categories").each(function(){
+                                    var id = $(this).attr('id');
+                                    if(id==val){
+                                        $(this).css("font-weight","bold");
+                                    }
+                                    if(text==val){
+                                        $(this).prop('checked', true);
+                                    }
+                                });
+                            });
+                        });
+                    }
                 }
             }             
         });
@@ -333,67 +353,49 @@ $CI->load->model('Patient_model');
         todayHighlight: true,
     });
 });
-// $("#submit").click(function(e){
-//     e.preventDefault();
-//     var treatment_plan = [];
-//     $(".clinical_examinator_category:checked").each(function(e){
-//         var text = $(this).val();
-//         $(".class_categories").each(function(j){
-//             var css = $(this).css('font-weight');
-//             if(text==$(this).attr('data-id')){
-//                 if(css=='700'){
-//                     treatment_plan.push($(this).attr('id'));
-//                 }
-//             }
-//         });
-//     });
-//     console.log(treatment_plan);
-// });
-$("#submit").click(function(e){
-        $(".error").remove();
-        var treatment_plan = [];
-        e.preventDefault();
-        
-        if($("#patient_id").val()==""){
-            $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
-            return false;
-        }
-        
-        var patient_id = $("#patient_id").val();
 
-        $(".clinical_examinator_category:checked").each(function(){
-            var text = $(this).val();
-            treatment_plan.push(text);
-            $(".class_categories").each(function(){
-                var css = $(this).css('font-weight');
-                if(text == $(this).attr('data-id')){
-                    if(css == '700'){
-                        treatment_plan.push($(this).attr('id'));
-                    }
+$("#submit").click(function(e){
+    $(".error").remove();
+    var clinical_examinator = [];
+    e.preventDefault();
+    
+    if($("#patient_id").val()==""){
+        $("#patient_id_or_number").after('<div class="error">Please Enter Patient ID or Phone Number</div>');
+        return false;
+    }
+    
+    var patient_id = $("#patient_id").val();
+    $(".clinical_examinator_category:checked").each(function(){
+        var text = $(this).val();
+        clinical_examinator.push(text);
+        $(".class_categories").each(function(){
+            var css = $(this).css('font-weight');
+            if(text==$(this).attr('data-id')){
+                if(css=='700'){
+                    clinical_examinator.push($(this).attr('id'));
                 }
-            });
+            }
         });
-        
-        
-        $.ajax({
-            url: "<?php echo base_url('ClinicalExaminationController/store_treatment_plan_details');?>",
-            data: ({patient_id:patient_id,treatment_plan:treatment_plan}),
-            dataType: 'json', 
-            type: 'post',
-            success: function(data) {
-                if(data.status == 'success'){
-                    Swal.fire({
-                        title: data.message,
-                        // icon:'success',
-                        allowOutsideClick: false,
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    })
-                }
-            }             
-        });
-           
     });
+    
+    $.ajax({
+        url: "<?php echo base_url('ClinicalExaminationController/store_clinical_examinator_details');?>",
+        data: ({patient_id:patient_id,clinical_examinator:clinical_examinator}),
+        dataType: 'json', 
+        type: 'post',
+        success: function(data) {
+            if(data.status=='success'){
+            Swal.fire({
+                title: data.message,
+                // icon:'success',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            })
+        }
+        }             
+    });
+});
 </script>

@@ -196,7 +196,7 @@
             dataType: 'json', 
             type: 'post',
             success: function(data) {
-                if(data.length<=0){
+                if(data.patient_details.length<=0){
                     $("#patient_id_or_number").after('<div class="error">No Record Found</div>');
                     $("#first_name").val('');
                     $("#last_name").val('');
@@ -214,7 +214,7 @@
                     $("#doctor_id").val('');
                     return false;
                 }else{
-                $(data).each(function(key,val){
+                $(data.patient_details).each(function(key,val){
                     $("#first_name").val(val.first_name);
                     $("#last_name").val(val.last_name);
                     $("#email_id").val(val.email_id);
