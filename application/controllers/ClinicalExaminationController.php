@@ -191,8 +191,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_medical_history_details(){
     $med_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_medical_history');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_medical_history');
 
     if(!empty($this->input->post('medical_history_id'))){
       $med_id = implode(',',$this->input->post('medical_history_id'));
@@ -212,8 +212,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_dental_history_details(){
     $den_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_dental_history');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_dental_history');
 
     if(!empty($this->input->post('dental_history_id'))){
       $den_id = implode(',',$this->input->post('dental_history_id'));
@@ -232,8 +232,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_treatment_charges_details(){
     $trt_char_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_treatment_charges');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_treatment_charges');
 
     if(!empty($this->input->post('treatment_charges_id'))){
       $trt_char_id = implode(',',$this->input->post('treatment_charges_id'));
@@ -253,8 +253,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_treatment_plan_details(){
     $trt_plan_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_treatment_plan');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_treatment_plan');
 
     if(!empty($this->input->post('treatment_plan'))){
       $trt_plan_id = implode(',',$this->input->post('treatment_plan'));
@@ -274,8 +274,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_clinical_examinator_details(){
     $trt_plan_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_clinical_examinator');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_clinical_examinator');
 
     if(!empty($this->input->post('clinical_examinator'))){
       $trt_plan_id = implode(',',$this->input->post('clinical_examinator'));
@@ -295,8 +295,8 @@ class ClinicalExaminationController extends MY_Controller {
   }
   public function store_investigation_details(){
     $trt_plan_id = '';
-            $this->db->where('patient_id', $this->input->post('patient_id'));
-            $this->db->delete('da_patient_investigation');
+    $this->db->where('patient_id', $this->input->post('patient_id'));
+    $this->db->delete('da_patient_investigation');
 
     if(!empty($this->input->post('investigation'))){
       $trt_plan_id = implode(',',$this->input->post('investigation'));

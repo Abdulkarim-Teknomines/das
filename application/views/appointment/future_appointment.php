@@ -57,12 +57,12 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".calender-div").attr('display:none');
+        $(".calender-div").css('display','none');
     });
     $(document).on('click','.fet_details',function(){
         var mn = $("#month").val();
         var yr = $("#year").val();
-        $(".calender-div").attr('display:block');
+        $(".calender-div").css('display','block');
         $('#calendar').fullCalendar({
             editable:true,
             header:{

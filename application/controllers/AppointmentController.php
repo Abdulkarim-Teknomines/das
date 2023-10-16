@@ -124,20 +124,20 @@ class AppointmentController extends MY_Controller {
     $data['doctors'] = $doctors;
     $appointment_details = $this->Patient_model->get_appointment_details($appointment_id);
     $patient_categories = $this->Patient_model->get_patient_categories($appointment_details->patient_master_id);
-    
     $data['patient_categories'] = $patient_categories;
     $data['appointment_details'] = $appointment_details;
       
     $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/appointment-side-menu', 'content' => 'appointment/edit_appointment_details');
     $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);    
   }
+
   public function update_appointment(){
     $appointment_id = $this->input->post('appointment_id');
     $appointment_date = $this->input->post('appointment_date');
     $appointment_time = $this->input->post('appointment_time');
     $doctor_id = $this->input->post('doctor_id');
     $patient_id = $this->input->post('patient_id');
-    // $appointment_date=date("d-m-Y", strtotime($appointment_date));
+    
     $data = array(
       'appointment_date'=>$appointment_date,
       'appointment_time'=>$appointment_time,
@@ -149,21 +149,19 @@ class AppointmentController extends MY_Controller {
     }
     echo json_encode($data);
   }
+  
   public function load(){
-    // echo $this->input->post('start');
     $month = $this->input->get('month');
     $year = $this->input->get('year');
     $data = $this->Patient_model->get_count_appointment($month,$year);
-    // echo "<pre>";print_r($data);
     $da =array();
+
     foreach($data as $k){
-      // echo $k->appointment_count;
       $da[] = array(
         'title'=>$k->title,
         'start'=>$k->start,
         'backgroundColor' => '#000',
-        'textColor'       => '#fff',
-        
+        'textColor'       => '#fff'
       ); 
     }
     echo json_encode($da);
