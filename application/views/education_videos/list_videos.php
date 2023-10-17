@@ -8,7 +8,7 @@
     }
 </style>
 
-<div class="card">
+<div class="card vids">
     <div class="card-header">
         <div class="card-block">
             <div class="card-block table-border-style">
@@ -50,4 +50,13 @@ var table =  $('#list_videos').DataTable({
     }
   },                    
 });
+$(document).on('click','.video_image',function(){
+    
+    var cls = $(this).closest('tr').find('.iframe_src').val();
+    
+    $('.vids').after('<div class="row"><div class="col-sm-12"><iframe src="'+cls+'" width="100%" height="500px"></iframe></div></div>');
+});
+// $("#video_image").click(function(){
+// });
+
 </script>

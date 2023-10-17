@@ -113,20 +113,26 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
-                    <?php if(!empty($this->gender)){
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                        <div class="col-sm-4">
+                            <!-- <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off" disabled> -->
+                            <input type="text" class="form-control age" placeholder="Enter Age" name="age"  id="age" autocomplete="off" value="" readonly>
+                        </div>
+                        <label class="col-sm-2 col-form-label">Sex *</label>
+                    <div class="col-sm-2">
+                        <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" disabled><label class="form-label"><?php echo $gen;?></label>
+                                    <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" disabled><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
+
                             <?php }
-                        } ?>
+                            } ?>
+                        
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
@@ -210,7 +216,7 @@
                     $("input:radio").prop('checked',false);
                     $("#appointment_date").val('');
                     $("#appointment_time").val('');
-                    
+                        $("#age").val('');
                     $("#doctor_id").val('');
                     return false;
                 }else{
@@ -223,6 +229,7 @@
                     $("#birth_date").val(val.birth_date);
                     $("#address").val(val.address);
                     $("#patient_problem").val(val.patient_problem);
+                    $("#age").val(val.age);
                     $('#blood_group option[value="'+val.blood_group_id+'"]').attr("selected", "selected");
                     $("input:radio[value='"+val.gender+"']").prop('checked',true);
                     $("#appointment_date").val(val.appointment_date);

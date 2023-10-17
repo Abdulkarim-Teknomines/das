@@ -122,7 +122,7 @@ class Patient_model extends CI_Model {
         return $result;
     }
     public function get_appointment_details($id){
-        $this->db->select('da_appointments.id as id,da_appointments.appointment_date,da_appointments.appointment_time,da_clinic_user.id as doctor_id,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem,da_patients.id as patient_master_id');
+        $this->db->select('da_appointments.id as id,da_appointments.appointment_date,da_appointments.appointment_time,da_patients.age,da_clinic_user.id as doctor_id,da_clinic_user.full_name as doctor_name,da_patients.first_name,da_patients.patient_id,da_patients.last_name,da_patients.email_id,da_patients.mobile_no,da_patients.whatssapp_no,da_patients.blood_group_id,da_patients.birth_date,da_patients.gender,da_patients.address,da_patients.patient_problem,da_patients.id as patient_master_id');
         if($this->admin_session->role_id!="1"){
             $this->db->where('da_appointments.clinic_id',$this->admin_session->clinic_id);
             $this->db->where('da_appointments.clinic_user_id',$this->admin_session->id);

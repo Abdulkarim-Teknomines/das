@@ -90,7 +90,6 @@
                             
                         </div>
                 </div>
-                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Blood Group </label>
                     <div class="col-sm-4">
@@ -112,20 +111,24 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
-                    <?php if(!empty($this->gender)){
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off" >
+                        </div>
+                        <label class="col-sm-2 col-form-label">Sex *</label>
+                    <div class="col-sm-2">
+                        <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" ><label class="form-label"><?php echo $gen;?></label>
+                                    <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" ><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
+
                             <?php }
-                        } ?>
+                            } ?>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
@@ -209,6 +212,7 @@
                     $("#appointment_time").val('');
                     $('#blood_group option[value=""]').attr("selected", "selected");
                     $("#doctor_id").val('');
+                    $("#age").val('');
                     $("input:radio").prop('checked',false);
                     return false;
                 }else{
@@ -218,6 +222,7 @@
                     $("#email_id").val(val.email_id);
                     $("#mobile_number").val(val.mobile_no);
                     $("#whatsapp_number").val(val.whatssapp_no);
+                    $("#age").val(val.age);
                     $("#birth_date").val(val.birth_date);
                     $("#address").val(val.address);
                     $("#patient_problem").val(val.patient_problem);
@@ -251,6 +256,7 @@ $(document).on('submit',function(e){
     var last_name = $("#last_name").val();
     var email_id = $("#email_id").val();
     var mobile_number = $("#mobile_number").val();
+    var age = $("#age").val();
     var whatsapp_number = $("#whatsapp_number").val();
     var blood_group = $("#blood_group").val();
     var birth_date = $("#birth_date").val();
@@ -259,7 +265,7 @@ $(document).on('submit',function(e){
     var patient_problem = $("#patient_problem").val();
     $.ajax({
         url: "<?php echo base_url('PatientController/update_patient');?>",
-        data: ({patient_id:patient_id,first_name:first_name,last_name:last_name,email_id:email_id,mobile_number:mobile_number,whatsapp_number:whatsapp_number,blood_group:blood_group,birth_date:birth_date,sex:sex,address:address,patient_problem:patient_problem}),
+        data: ({patient_id:patient_id,first_name:first_name,last_name:last_name,email_id:email_id,mobile_number:mobile_number,whatsapp_number:whatsapp_number,blood_group:blood_group,birth_date:birth_date,sex:sex,address:address,patient_problem:patient_problem,age:age}),
         dataType: 'json', 
         type: 'post',
         success: function(data) {
@@ -277,6 +283,7 @@ $(document).on('submit',function(e){
                                 $("#mobile_number").val('');
                                 $("#whatsapp_number").val('');
                                 $("#birth_date").val('');
+                                $("#age").val('');
                                 $("#address").val('');
                                 $("#patient_problem").val('');
                                 $('#blood_group option[value=""]').attr("selected", "selected");

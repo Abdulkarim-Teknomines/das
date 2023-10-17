@@ -103,6 +103,7 @@ class PatientController extends MY_Controller {
             $email_id = $this->input->post('email_id');
             $mobile_number = $this->input->post('mobile_number');
             $whatsapp_number = $this->input->post('whatsapp_number');
+            $age = $this->input->post('age');
             $blood_group = $this->input->post('blood_group');
             $birth_date = $this->input->post('birth_date');
             $sex = $this->input->post('sex');
@@ -117,6 +118,7 @@ class PatientController extends MY_Controller {
                 'blood_group_id'=>$blood_group,
                 'birth_date'=>$birth_date,
                 'gender'=>$sex,
+                'age'=>$age,
                 'address'=>$address,
                 'patient_problem'=>$patient_problem,
             

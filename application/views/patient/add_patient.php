@@ -61,13 +61,11 @@
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Age *</label>
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off">
                         </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
+                        <label class="col-sm-2 col-form-label">Sex *</label>
+                    <div class="col-sm-2">
                         <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
@@ -78,18 +76,9 @@
 
                             <?php }
                             } ?>
-                        <!-- <div class="form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="sex" value="Female"><label class="form-label">Female</label>
-                        </label>
-                        </div>
-                        <div class="form-check-inline">
-                        <label class="form-check-label">
-                            <input type="radio" class="form-check-input" name="sex" value="Other"><label class="form-label">Other</label>
-                        </label>
-                        </div> -->
                     </div>
                 </div>
+                    
                 
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>

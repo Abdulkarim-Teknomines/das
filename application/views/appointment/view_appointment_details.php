@@ -26,14 +26,13 @@ $CI->load->model('Patient_model');
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Doctor *</label>
                     <div class="col-sm-10">
-                    <select class="form-control doctors" name="doctors" id="doctors" disabled>
-                        <option value="">Select Doctor Name</option>
+                        <select class="form-control doctors" name="doctors" id="doctors" disabled>
+                            <option value="">Select Doctor Name</option>
                             <?php if(!empty($doctors)){
                                 foreach($doctors as $dr){ ?>
                                     <option value="<?php echo $dr->id;?>" <?php if($dr->id==$appointment_details->doctor_id){echo 'selected';}?>><?php echo $dr->full_name;?></option>
                             <?php   }
-                            }
-                            ?>
+                            } ?>
                         </select>
                     </div>
                 </div>
@@ -41,12 +40,13 @@ $CI->load->model('Patient_model');
                     <label class="col-sm-2 col-form-label">Appointment Date *</label>
                     <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Appointment Date" name="appointment_date" id="appointment_date" autocomplete="off" value="<?php echo $appointment_details->appointment_date;?>" disabled>
-                        </div>
-                        <label class="col-sm-2 col-form-label">Previous Appointment Time *</label>
-                        <div class="col-sm-4">
+                    </div>
+                    <label class="col-sm-2 col-form-label">Previous Appointment Time *</label>
+                    <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Select Time" name="appointment_time" id="appointment_time" autocomplete="off" value="<?php echo $appointment_details->appointment_time;?>" disabled>
                     </div>
                 </div>
+                
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Patient Details *</label>
                 </div>
@@ -60,28 +60,27 @@ $CI->load->model('Patient_model');
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Last Name * </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Last Name" name="last_name"  id="last_name" autocomplete="off"  value="<?php echo $appointment_details->last_name;?>" readonly>
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Last Name" name="last_name"  id="last_name" autocomplete="off"  value="<?php echo $appointment_details->last_name;?>" readonly>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Email Address </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter Email Address" name="email_id"  id="email_id" autocomplete="off" readonly value="<?php echo $appointment_details->email_id;?>">
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Enter Email Address" name="email_id"  id="email_id" autocomplete="off" readonly value="<?php echo $appointment_details->email_id;?>">
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Mobile Number *</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Enter Mobile Number" name="mobile_number"  id="mobile_number" autocomplete="off"  value="<?php echo $appointment_details->mobile_no;?>" readonly>
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Enter Mobile Number" name="mobile_number"  id="mobile_number" autocomplete="off"  value="<?php echo $appointment_details->mobile_no;?>" readonly>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Whatsapp No </label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" value="<?php echo $appointment_details->whatssapp_no;?>" readonly>
-                            
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control whatsapp_number" placeholder="Enter Whatsapp Number" name="whatsapp_number"  id="whatsapp_number" autocomplete="off" value="<?php echo $appointment_details->whatssapp_no;?>" readonly>
+                    </div>
                 </div>
                 
                 <div class="form-group row">
@@ -104,32 +103,37 @@ $CI->load->model('Patient_model');
                         <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off"  value="<?php echo $appointment_details->birth_date;?>" readonly>
                     </div>
                 </div>
+                
                 <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                    <div class="col-sm-4">
+                        <!-- <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off" disabled> -->
+                        <input type="text" class="form-control age" placeholder="Enter Age" name="age"  id="age" autocomplete="off" value="<?php echo $appointment_details->age;?>" readonly>
+                    </div>
                     <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
-                    <?php if(!empty($this->gender)){
+                    <div class="col-sm-2">
+                        <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" <?php if($appointment_details->gender==$gen){echo 'checked';}?> disabled><label class="form-label"><?php echo $gen;?></label>
+                                    <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" <?php if($appointment_details->gender==$gen){echo 'checked';}?> disabled><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
                             <?php }
-                        } ?>
+                            } ?>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" placeholder="Enter Address" name="address"  id="address" autocomplete="off" readonly><?php echo $appointment_details->address;?></textarea>
-                        </div>
+                    <div class="col-sm-10">
+                        <textarea class="form-control" placeholder="Enter Address" name="address"  id="address" autocomplete="off" readonly><?php echo $appointment_details->address;?></textarea>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Patient Problem *</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Patient Problem" name="patient_problem"  id="patient_problem" autocomplete="off" value="<?php echo $appointment_details->patient_problem;?>" readonly>
-                        </div>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Patient Problem" name="patient_problem"  id="patient_problem" autocomplete="off" value="<?php echo $appointment_details->patient_problem;?>" readonly>
+                    </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-2 btn btn-primary text-center m-b-20"><span>Speciality *</span></div>

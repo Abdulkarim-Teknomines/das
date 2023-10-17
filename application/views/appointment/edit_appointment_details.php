@@ -103,22 +103,30 @@ $CI->load->model('Patient_model');
                     <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off"  value="<?php echo $appointment_details->birth_date;?>" readonly>
                     </div>
+                    
                 </div>
+                
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
-                    <?php if(!empty($this->gender)){
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                        <div class="col-sm-4">
+                            <!-- <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off" disabled> -->
+                            <input type="text" class="form-control age" placeholder="Enter Age" name="age"  id="age" autocomplete="off" value="<?php echo $appointment_details->age;?>" readonly>
+                        </div>
+                        <label class="col-sm-2 col-form-label">Sex *</label>
+                    <div class="col-sm-2">
+                        <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
                                         <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" <?php if($appointment_details->gender==$gen){echo 'checked';}?> disabled><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
+
                             <?php }
-                        } ?>
+                            } ?>
+                        
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Address *</label>
                         <div class="col-sm-10">
@@ -213,6 +221,7 @@ $CI->load->model('Patient_model');
                     $("#first_name").val('');
                     $("#last_name").val('');
                     $("#email_id").val('');
+                    $("#age").val('');
                     $("#mobile_number").val('');
                     $("#whatsapp_number").val('');
                     $("#birth_date").val('');
@@ -227,6 +236,7 @@ $CI->load->model('Patient_model');
                     $("#first_name").val(val.first_name);
                     $("#last_name").val(val.last_name);
                     $("#email_id").val(val.email_id);
+                    $("#age").val(val.age);
                     $("#mobile_number").val(val.mobile_no);
                     $("#whatsapp_number").val(val.whatssapp_no);
                     $("#birth_date").val(val.birth_date);

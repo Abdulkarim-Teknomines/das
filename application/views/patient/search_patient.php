@@ -114,18 +114,24 @@ $CI->load->model('Patient_model');
                         <input type="text" class="form-control" placeholder="Select Date" name="birth_date"  id="birth_date" autocomplete="off" readonly>
                     </div>
                 </div>
+                
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Sex *</label>
-                    <div class="col-sm-10">
-                    <?php if(!empty($this->gender)){
+                    <label class="col-sm-2 col-form-label">Age *</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" placeholder="Enter Age" name="age"  id="age" autocomplete="off" readonly>
+                        </div>
+                        <label class="col-sm-2 col-form-label">Sex *</label>
+                    <div class="col-sm-2">
+                        <?php if(!empty($this->gender)){
                             foreach($this->gender as $gen){ ?>
                                 <div class="form-check-inline">
                                     <label class="form-check-label">
-                                        <input type="radio" class="form-check-input sex" name="sex" value="<?php echo $gen;?>" disabled><label class="form-label"><?php echo $gen;?></label>
+                                        <input type="radio" class="form-check-input" name="sex" value="<?php echo $gen;?>" checked="true" disabled><label class="form-label"><?php echo $gen;?></label>
                                     </label>
                                 </div>
+
                             <?php }
-                        } ?>
+                            } ?>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -245,6 +251,7 @@ $CI->load->model('Patient_model');
                     $("#appointment_time").val('');
                     $('#blood_group option[value=""]').attr("selected", "selected");
                     $("#doctor_id").val('');
+                    $("#age").val('');
                     $("input:radio").prop('checked',false);
                     return false;
                 }else{
@@ -253,6 +260,7 @@ $CI->load->model('Patient_model');
                         $("#last_name").val(val.last_name);
                         $("#email_id").val(val.email_id);
                         $("#mobile_number").val(val.mobile_no);
+                        $("#age").val(val.age);
                         $("#whatsapp_number").val(val.whatssapp_no);
                         $("#birth_date").val(val.birth_date);
                         $("#address").val(val.address);
