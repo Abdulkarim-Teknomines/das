@@ -97,7 +97,7 @@ $route['clinical_examinator'] = 'ClinicalExaminationController/clinical_examinat
 $route['investigation'] = 'ClinicalExaminationController/investigation';
 $route['diagnosis'] = 'ClinicalExaminationController/diagnosis';
 $route['treatment_plan'] = 'ClinicalExaminationController/treatment_plan';
-$route['treatment_charges'] = 'ClinicalExaminationController/treatment_charges';
+$route['treatment_charges'] = 'TreatmentController/treatment_charges';
 
 $route['lab_details/patient_selection'] = 'LabDetailsController/patient_selection';
 $route['lab_details/type_of_work'] = 'LabDetailsController/type_of_work';

@@ -195,7 +195,7 @@ $CI->load->model('Patient_model');
                         $("#appointment_date").val(val.appointment_date);
                         $("#appointment_time").val(val.appointment_time);
                         // $.ajax({
-                        //     url: "<?php echo base_url('ClinicalExaminationController/patient_categories');?>",
+                        //     url: "<?php echo base_url('TreatmentController/patient_categories');?>",
                         //     data: ({patient_id:val.id}),
                         //     dataType: 'json', 
                         //     type: 'post',
@@ -255,7 +255,7 @@ $(".submit").click(function(e){
         treatment_charges_id[s]=$(this).val();
     });
     $.ajax({
-        url: "<?php echo base_url('ClinicalExaminationController/store_treatment_charges_details');?>",
+        url: "<?php echo base_url('TreatmentController/store_treatment_charges_details');?>",
         data: ({patient_id:patient_id,treatment_charges_id:treatment_charges_id}),
         dataType: 'json', 
         type: 'post',

@@ -100,13 +100,11 @@ class Patient_model extends CI_Model {
         }
         if($date!=""){
             $this->db->where("da_appointments.appointment_date", $date);
-            
         }
         $this->db->join('da_clinic_user','da_clinic_user.id=da_appointments.doctor_id','left');
         $this->db->join('da_patients','da_patients.id=da_appointments.patient_id','left');
         $this->db->from('da_appointments');
         $result = $this->db->get()->result();
-        
         return $result;
     }
     public function get_count_appointment($month='',$year=''){
@@ -114,8 +112,12 @@ class Patient_model extends CI_Model {
         if($month!="" && $year!=""){
             $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%m')", $month);
             $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%Y')", $year );
+        }else{
+            $month = date('m');
+            $year = date('Y');
+            $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%m')", $month);
+            $this->db->where("DATE_FORMAT(da_appointments.appointment_date,'%Y')", $year );
         }
-        // $this->db->group_by('da_appointments.appointment_date');
         $this->db->group_by('da_appointments.appointment_date');
         $this->db->from('da_appointments');
         $result = $this->db->get()->result();

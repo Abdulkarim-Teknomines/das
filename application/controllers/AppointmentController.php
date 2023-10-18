@@ -152,8 +152,8 @@ class AppointmentController extends MY_Controller {
     $month = $this->input->get('month');
     $year = $this->input->get('year');
     $data = $this->Patient_model->get_count_appointment($month,$year);
-    $da =array();
-
+    
+    $da = array();
     foreach($data as $k){
       $da[] = array(
         'title'=>$k->title,

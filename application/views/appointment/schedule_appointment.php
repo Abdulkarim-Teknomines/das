@@ -51,7 +51,7 @@
                     <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Appointment Date" name="appointment_date" id="appointment_date" autocomplete="off">
                         </div>
-                        <label class="col-sm-2 col-form-label">Previous Appointment Time *</label>
+                        <label class="col-sm-2 col-form-label">Appointment Time *</label>
                         <div class="col-sm-4">
                         <input type="text" class="form-control" placeholder="Select Time" name="appointment_time" id="appointment_time" autocomplete="off">
                     </div>

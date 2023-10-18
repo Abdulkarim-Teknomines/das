@@ -57,12 +57,29 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function(){
-        $(".calender-div").css('display','none');
+        $('#calendar').fullCalendar({
+            editable:true,
+            header:{
+                left:'',
+                center:'title',
+                right:''
+            },
+            eventLimit: true,
+            events:'<?php echo base_url()?>AppointmentController/load',
+            selectable:true,
+            selectHelper:true,
+            eventClick:function(info)
+            {
+                var selected_date = info.start.format();
+                window.location.href="<?php echo base_url(); ?>AppointmentController/fetch_data?date="+selected_date;
+            },
+        });
+        $('#calendar').fullCalendar('gotoDate', yr+'-'+mn);
     });
+
     $(document).on('click','.fet_details',function(){
         var mn = $("#month").val();
         var yr = $("#year").val();
-        $(".calender-div").css('display','block');
         $('#calendar').fullCalendar({
             editable:true,
             header:{

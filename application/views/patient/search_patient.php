@@ -175,12 +175,12 @@ $CI->load->model('Patient_model');
                         </div>
                     </div>
                 <?php }} ?>
-                <div class="form-group row">
+                <!-- <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
                         <input type="submit" name="submit" class="btn btn-primary text-center m-b-20" value="Book on Appointment" autocomplete="off">
                     </div>
-                </div>
+                </div> -->
             </form>
         </div>
     </div>

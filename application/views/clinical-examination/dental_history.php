@@ -96,7 +96,7 @@ $CI->load->model('Patient_model');
                     </div>
                 <?php } ?>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Previous Medical History</label>
+                    <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Previous Dental History</label>
                 </div>
                 <div class="form-group row">
                     <?php foreach($dental_history as $mh){ ?>
@@ -114,8 +114,11 @@ $CI->load->model('Patient_model');
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
-                    <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" value="Submit" autocomplete="off">
+                    <div class="col-sm-1 text-right">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 back" value="Back" autocomplete="off">
+                    </div>
+                    <div class="col-sm-1 text-right">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 next" value="Next" autocomplete="off">
                     </div>
                 </div>
                 <!-- <div class="form-group row">

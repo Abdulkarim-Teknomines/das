@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Last Name * </label>
+                    <label class="col-sm-2 col-form-label">Last Name  </label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" placeholder="Last Name" name="last_name"  id="last_name" autocomplete="off">
                         </div>

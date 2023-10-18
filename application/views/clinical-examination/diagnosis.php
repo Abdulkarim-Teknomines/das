@@ -97,7 +97,7 @@ $CI->load->model('Patient_model');
                 <?php } ?>
                 
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Previous Medical History</label>
+                    <label class="col-sm-2 col-form-label btn btn-primary text-center m-b-20">Previous Diagnosis History</label>
                 </div>
                 <div class="form-group row">
                     <?php 
@@ -221,8 +221,11 @@ $CI->load->model('Patient_model');
 
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
-                    <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" id="submit" value="Submit" autocomplete="off">
+                    <div class="col-sm-1 text-right">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 back" value="Back" autocomplete="off">
+                    </div>
+                    <div class="col-sm-1 text-right">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 next" value="Next" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -243,12 +246,12 @@ $CI->load->model('Patient_model');
         data:{patient_id_number:patient_id_number},
         dataType: 'json',
         success:function(data){
-                $('#patient_id').html('');
-                $('#patient_id').append( $('<option></option>').val("").html("Please Select Patient ID") )
-                $.each(data, function(val, text) {
-                    $('#patient_id').append( $('<option></option>').val(text.id).html(text.patient_id) )
-                });
-            }
+            $('#patient_id').html('');
+            $('#patient_id').append( $('<option></option>').val("").html("Please Select Patient ID") )
+            $.each(data, function(val, text) {
+                $('#patient_id').append( $('<option></option>').val(text.id).html(text.patient_id) )
+            });
+        }
         });
     });
     $(".sub_class_categories").click(function(){
@@ -303,22 +306,7 @@ $CI->load->model('Patient_model');
                         $("#patient_name").val(val.first_name+' '+val.last_name);
                         $("#appointment_date").val(val.appointment_date);
                         $("#appointment_time").val(val.appointment_time);
-                        // $.ajax({
-                        //     url: "<?php echo base_url('ClinicalExaminationController/patient_categories');?>",
-                        //     data: ({patient_id:val.id}),
-                        //     dataType: 'json', 
-                        //     type: 'post',
-                        //     success: function(data) {
-                        //         $.each(data, function (i) {
-                        //             var result = data[i].sub_category_id.split(',');
-                        //                 $('#categories_'+data[i].category_id).prop('checked', true);  
-                        //                 $.each(result, function (j) {
-                        //                     $("#sub_categories_"+data[i].category_id).find("option[value="+result[j]+"]").prop("selected", "selected");
-                        //                     $("#sub_categories_"+data[i].category_id).select2({theme:"classic"}).trigger('change');
-                        //                 });
-                        //         });
-                        //     }
-                        // });
+                        
                     });
                     if(data.categories.length>0){
                         $.each(data.categories, function (i) {

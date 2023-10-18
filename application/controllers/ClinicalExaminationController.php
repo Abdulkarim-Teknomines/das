@@ -93,17 +93,7 @@ class ClinicalExaminationController extends MY_Controller {
     $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/clinical-examination-side-menu','content'=>'clinical-examination/treatment_plan');
       $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
   }
-  public function treatment_charges(){
-    $data['blood_group'] = $this->blood_group;
-    $categories = $this->Patient_model->get_categories();
-    $data['categories'] = $categories;
-    $doctors = $this->Patient_model->get_doctors();
-    $data['doctors'] = $doctors;
-    $treatment_charges = $this->Patient_model->get_treatment_charges();
-    $data['treatment_charges'] = $treatment_charges;
-    $template_part = array('top_menu' => 'template/gradient-able-template/top-menu','side_menu'=>'template/gradient-able-template/side-menu/clinical-examination-side-menu','content'=>'clinical-examination/treatment_charges');
-      $this->template->load('template/gradient-able-template/admin-template',$template_part,$data);
-  }
+  
   public function search_patient_details(){
     $patient_id_number = $this->input->post('patient_id_number');
       $patient_id = $this->input->post('patient_id');
@@ -230,27 +220,7 @@ class ClinicalExaminationController extends MY_Controller {
       echo json_encode($data);
     }
   }
-  public function store_treatment_charges_details(){
-    $trt_char_id = '';
-    $this->db->where('patient_id', $this->input->post('patient_id'));
-    $this->db->delete('da_patient_treatment_charges');
-
-    if(!empty($this->input->post('treatment_charges_id'))){
-      $trt_char_id = implode(',',$this->input->post('treatment_charges_id'));
-    }
-    
-    $data = array(
-      'patient_id'=>$this->input->post('patient_id'),
-      'treatment_charges_id'=>$trt_char_id,
-      'clinic_user_id'=>$this->admin_session->id,
-      'clinic_id'=>$this->admin_session->clinic_id
-    );
-    $ins_data = $this->Patient_model->insert_data($data,'da_patient_treatment_charges');
-    if($ins_data!=false){
-      $data=array('status'=>'success','message'=>'Treatment Charges Added Successfully');
-      echo json_encode($data);
-    }
-  }
+  
   public function store_treatment_plan_details(){
     $trt_plan_id = '';
     $this->db->where('patient_id', $this->input->post('patient_id'));

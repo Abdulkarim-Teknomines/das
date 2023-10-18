@@ -40,12 +40,11 @@ $CI->load->model('Patient_model');
                     <div class="col-sm-10">
                     <select class="form-control doctors" name="doctors" id="doctors" >
                         <option value="">Patient Name</option>
-                            <?php if(!empty($doctors)){
-                                foreach($doctors as $dr){ ?>
-                                    <option value="<?php echo $dr->id;?>"><?php echo $dr->full_name;?></option>
+                        <?php if(!empty($doctors)){
+                            foreach($doctors as $dr){ ?>
+                                <option value="<?php echo $dr->id;?>"><?php echo $dr->full_name;?></option>
                             <?php   }
-                            }
-                            ?>
+                            } ?>
                         </select>
                     </div>
                 </div> -->
@@ -115,7 +114,7 @@ $CI->load->model('Patient_model');
                 <div class="form-group row">
                     <div class="col-sm-10"></div>
                     <div class="col-sm-2 text-right">
-                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" value="Submit" autocomplete="off">
+                        <input type="button" name="button" class="btn btn-primary text-center m-b-20 submit" value="Next" autocomplete="off">
                     </div>
                 </div>
             </form>
@@ -255,15 +254,15 @@ $(".submit").click(function(e){
         type: 'post',
         success: function(data) {
             if(data.status=='success'){
-                Swal.fire({
-                    title: data.message,
-                    // icon:'success',
-                    allowOutsideClick: false,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        window.location.reload();
-                    }
-                })
+                // Swal.fire({
+                //     title: data.message,
+                //     // icon:'success',
+                //     allowOutsideClick: false,
+                // }).then((result) => {
+                //     if (result.isConfirmed) {
+                //         window.location.reload();
+                //     }
+                // })
             }else{
                 $.each(data.message,function(key,value){
                     var element = $("#"+key);
